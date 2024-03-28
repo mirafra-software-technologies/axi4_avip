@@ -5,8 +5,8 @@ class Axi4LiteSlaveReadSeqItemConverter extends uvm_object;
   `uvm_object_utils(Axi4LiteSlaveReadSeqItemConverter)
 
   extern function new(string name = "Axi4LiteSlaveReadSeqItemConverter");
-  extern static function void fromReadClass(input Axi4LiteSlaveReadTransaction input_conv_h, output axi4LiteReadTransferCharStruct output_conv_h);
-  extern static function void toReadClass(input axi4LiteReadTransferCharStruct input_conv_h, output Axi4LiteSlaveReadTransaction output_conv_h);
+  extern static function void fromReadClass(input Axi4LiteSlaveReadTransaction input_conv_h, output axi4LiteReadTransferPacketStruct output_conv_h);
+  extern static function void toReadClass(input axi4LiteReadTransferPacketStruct input_conv_h, output Axi4LiteSlaveReadTransaction output_conv_h);
    
   extern function void do_print(uvm_printer printer);
 
@@ -16,7 +16,7 @@ function Axi4LiteSlaveReadSeqItemConverter::new(string name = "Axi4LiteSlaveRead
   super.new(name);
 endfunction : new
 
-function void Axi4LiteSlaveReadSeqItemConverter::fromReadClass(input Axi4LiteSlaveReadTransaction input_conv_h,output axi4LiteReadTransferCharStruct output_conv_h);
+function void Axi4LiteSlaveReadSeqItemConverter::fromReadClass(input Axi4LiteSlaveReadTransaction input_conv_h,output axi4LiteReadTransferPacketStruct output_conv_h);
 
   `uvm_info("axi4Lite_Slave_Read_Seq_item_conv_class",$sformatf("------------------------------------fromReadClass----------------------------------"),UVM_HIGH);
 
@@ -24,7 +24,7 @@ function void Axi4LiteSlaveReadSeqItemConverter::fromReadClass(input Axi4LiteSla
 
 endfunction : fromReadClass
 
-function void Axi4LiteSlaveReadSeqItemConverter::toReadClass(input axi4LiteReadTransferCharStruct input_conv_h, output Axi4LiteSlaveReadTransaction output_conv_h);
+function void Axi4LiteSlaveReadSeqItemConverter::toReadClass(input axi4LiteReadTransferPacketStruct input_conv_h, output Axi4LiteSlaveReadTransaction output_conv_h);
   `uvm_info("axi4Lite_Slave_Read_Seq_item_conv_class",$sformatf("--------------------------------------------toReadClass--------------------------"),UVM_HIGH);
  
   output_conv_h = new();
@@ -33,9 +33,9 @@ function void Axi4LiteSlaveReadSeqItemConverter::toReadClass(input axi4LiteReadT
 endfunction : toReadClass
 
 function void Axi4LiteSlaveReadSeqItemConverter::do_print(uvm_printer printer);
-  axi4LiteReadTransferCharStruct readCharStruct; 
+  axi4LiteReadTransferPacketStruct readPacketStruct; 
   super.do_print(printer);
-  printer.print_field("readDelayForReady",readCharStruct.readDelayForReady,$bits(readCharStruct.readDelayForReady),UVM_HEX);
+  printer.print_field("readDelayForReady",readPacketStruct.readDelayForReady,$bits(readPacketStruct.readDelayForReady),UVM_HEX);
 endfunction : do_print
 
 `endif

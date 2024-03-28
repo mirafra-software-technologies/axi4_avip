@@ -6,6 +6,8 @@ class Axi4LiteSlaveReadTransaction extends uvm_sequence_item;
   
   rand bit [DELAY_WIDTH-1:0] readDelayForReady;
 
+  constraint uniqueValueForReadDelayForReady_c1 {unique {readDelayForReady};}
+
   extern function new(string name = "Axi4LiteSlaveReadTransaction");
   extern function void do_copy(uvm_object rhs);
   extern function bit do_compare (uvm_object rhs, uvm_comparer comparer);

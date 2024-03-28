@@ -52,18 +52,18 @@ endtask : run_phase
 task Axi4LiteMasterReadDriverProxy::readTransferTask();
   forever begin
     Axi4LiteMasterReadTransaction masterReadTx;
-    axi4LiteReadTransferCfgStruct masterReadCfgStruct;
-    axi4LiteReadTransferCharStruct masterReadCharStruct;
+    axi4LiteReadTransferConfigStruct masterReadConfigStruct;
+    axi4LiteReadTransferPacketStruct masterReadPacketStruct;
 
     axi4LiteMasterReadSeqItemPort.get_next_item(reqRead); 
   `uvm_info(get_type_name(),$sformatf("MASTER_READ_TASK::Before Sending_Req_Read_Packet = \n%s",reqRead.sprint()),UVM_HIGH);
 
-    Axi4LiteMasterReadSeqItemConverter::fromReadClass(reqRead, masterReadCharStruct);
-    Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadCfgStruct);
+    Axi4LiteMasterReadSeqItemConverter::fromReadClass(reqRead, masterReadPacketStruct);
+    Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
 
-    axi4LiteMasterReadDriverBFM.readChannelTask(masterReadCfgStruct, masterReadCharStruct);
+    axi4LiteMasterReadDriverBFM.readChannelTask(masterReadConfigStruct, masterReadPacketStruct);
 
-    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadCharStruct,masterReadTx);
+    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadTx);
 
     axi4LiteMasterReadSeqItemPort.item_done();
    end

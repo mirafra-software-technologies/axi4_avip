@@ -29,8 +29,8 @@ interface Axi4LiteMasterReadDriverBFM(input bit  aclk,
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : wait_for_aresetn
 
-  task readChannelTask(input axi4LiteReadTransferCfgStruct masterReadCfgStruct, 
-                        inout axi4LiteReadTransferCharStruct masterReadCharStruct
+  task readChannelTask(input axi4LiteReadTransferConfigStruct masterReadConfigStruct, 
+                        inout axi4LiteReadTransferPacketStruct masterReadPacketStruct
                        );
     `uvm_info(name,$sformatf("READ_CHANNEL_TASK_STARTED"),UVM_HIGH)
     @(posedge aclk);
@@ -43,16 +43,7 @@ interface Axi4LiteMasterReadDriverBFM(input bit  aclk,
     
     `uvm_info(name,$sformatf("READ_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask
-/*
-task masterReadAddressChannelTask(inout axi4LiteReadTransferCharStruct masterReadCharStruct,axi4LiteReadTransferCfgStruct masterReadCfgStruct);
 
-endtask : masterReadAddressChannelTask
-
-task masterReadDataChannelTask(inout axi4LiteReadTransferCharStruct masterReadCharStruct,axi4LiteReadTransferCfgStruct masterReadCfgStruct);
-
-endtask : masterReadDataChannelTask
-
-*/
 endinterface : Axi4LiteMasterReadDriverBFM
 
 `endif

@@ -12,24 +12,29 @@ interface Axi4LiteSlaveReadAssertions (input aclk,
   import uvm_pkg::*;
   `include "uvm_macros.svh";
 
-  Axi4LiteAssertions axi4LiteAssertions();
+  Axi4LiteAssertions axi4LiteAssertions(.aclk(aclk),
+                                        .aresetn(aresetn)
+                                       );
 
   initial begin
     `uvm_info("Axi4LiteSlaveReadAssertions","Axi4LiteSlaveReadAssertions",UVM_LOW);
   end
- /* 
-// READ ADDRESS CHANNEL
-  AXI4LITE_SLAVEREAD_ADDRESS_SIGNALS_CHECK_IFUNKNOWN: assert property (axi4LiteAssertions.ifSignalsAreUnknown(arvalid,arready));
-  AXI4LITE_SLAVEREAD_ADDRESS_SIGNALS_CHECK_ARVALIDSTABLE: assert property (axi4LiteAssertions.validStableUntillreadyDeasserted(arvalid,arready));
-  AXI4LITE_SLAVEREAD_ADDRESS_SIGNALS_CHECK_ARVALIDSTABLE_UPTO16CLK: assert property (axi4LiteAssertions.validStableCheckUpto16ClkIfreadyLow(arvalid,arready));
 
-// READ DATA CHANNEL
-  AXI4LITE_SLAVEREAD_DATA_SIGNALS_CHECK_IFUNKNOWN: assert property (axi4LiteAssertions.ifSignalsAreUnknown(rvalid,rready));
-  AXI4LITE_SLAVEREAD_DATA_SIGNALS_CHECK_RVALIDSTABLE: assert property (axi4LiteAssertions.validStableUntillreadyDeasserted(rvalid,rready));
-  AXI4LITE_SLAVEREAD_DATA_SIGNALS_CHECK_RVALIDSTABLE_UPTO16CLK: assert property (axi4LiteAssertions.validStableCheckUpto16ClkIfreadyLow(rvalid,rready));
-//  AXI4LITE_SLAVEREAD_DATA_SIGNALS_RVALIDASSERTED_DATAISNOTUNKNOWN: assert property (axi4LiteAssertions.validAssertedCorrespondingDataCannotBeUnknown(rvalid,rready,rdata));
-//  AXI4LITE_SLAVEREAD_DATA_SIGNALS_RREADYASSERTED_BEFORERVALID_DATACANBEUNKNOWN: assert property (axi4LiteAssertions.readyAssertedBeforeThewvalidCorrespondingDataCanBeUnknown(rvalid,rready,rdata));
-*/
+//  AXI4LITE_SLAVEREAD_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW: assert property (axi4LiteAssertions.ifResetAssertedThenValidLow(valid))
+//     $info("AXI4LITE_SLAVEREAD_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW : ASSERTION PASS");
+//    else  
+//     $error("AXI4LITE_SLAVEREAD_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW : ASSERTION FAIL");
+
+  AXI4LITE_SLAVEREAD_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED: assert property (axi4LiteAssertions.validAssertedThenRemainsHighUntillReadyAsserted(valid,ready))
+     $info("AXI4LITE_SLAVEREAD_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED : ASSERTION PASS");
+    else  
+     $error("AXI4LITE_SLAVEREAD_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED : ASSERTION FAIL");
+
+  AXI4LITE_SLAVEREAD_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK: assert property (axi4LiteAssertions.validAssertedThenReadyNeedsToBeAssertedWithin16Clk(valid,ready))
+     $info("AXI4LITE_SLAVEREAD_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK : ASSERTION PASS");
+    else  
+     $error("AXI4LITE_SLAVEREAD_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK : ASSERTION FAIL");
+
 endinterface : Axi4LiteSlaveReadAssertions
 
 `endif

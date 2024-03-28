@@ -21,7 +21,6 @@ module Axi4LiteAssertionTB;
                                         .aresetn(aresetn)
                                        );
 
-
   initial begin
     #3000;
     $finish;
@@ -45,15 +44,22 @@ module Axi4LiteAssertionTB;
     When_validAndReadyAreTrueWithinThe16Clk_Expect_AssertionPass();
     When_validIsAssertedAndReadyIsAssertedWithinThe16Clk_Expect_AssertionPass();
     When_validIsAssertedAndReadyIsAssertedAfter16Clk_Expect_AssertionFail();
-  
   end
 
-  //AXI4LITE_SIGNALS_CHECK_IFUNKNOWN: assert property (axi4LiteAssertions.isUnknown(valid,0));
-  //AXI4LITE_SIGNALS_CHECK_IFUNKNOWN: assert property (axi4LiteAssertions.ifSignalsAreUnknown(valid));
+  AXI4LITE_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW: assert property (axi4LiteAssertions.ifResetAssertedThenValidLow(valid))
+     $info("AXI4LITE_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW : ASSERTION PASS");
+    else  
+     $error("AXI4LITE_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW : ASSERTION FAIL");
 
-  AXI4LITE_SIGNALS_CHECK_IFUNKNOWN: assert property (axi4LiteAssertions.ifSignalsAreUnknown(valid));
-  AXI4LITE_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED: assert property (axi4LiteAssertions.validAssertedThenRemainsHighUntillReadyAsserted(valid,ready));
-  AXI4LITE_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK: assert property (axi4LiteAssertions.validAssertedThenReadyNeedsToBeAssertedWithin16Clk(valid,ready));
+  AXI4LITE_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED: assert property (axi4LiteAssertions.validAssertedThenRemainsHighUntillReadyAsserted(valid,ready))
+     $info("AXI4LITE_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED : ASSERTION PASS");
+    else  
+     $error("AXI4LITE_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED : ASSERTION FAIL");
+
+  AXI4LITE_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK: assert property (axi4LiteAssertions.validAssertedThenReadyNeedsToBeAssertedWithin16Clk(valid,ready))
+     $info("AXI4LITE_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK : ASSERTION PASS");
+    else  
+     $error("AXI4LITE_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK : ASSERTION FAIL");
 
   //----------------------------------------------------------------------------
   //**** WAVEDROM_SCENARIO_CODE_START ****
@@ -91,6 +97,7 @@ module Axi4LiteAssertionTB;
       end
       aresetn <= 1'b0;
       valid <= 1'b0;
+      @(posedge aclk);
     `uvm_info(name,$sformatf("When_aresetnIsAssertedValidIsZeroAtSameClk_Expect_AssertionPass Task Ended"),UVM_NONE);
   endtask
 

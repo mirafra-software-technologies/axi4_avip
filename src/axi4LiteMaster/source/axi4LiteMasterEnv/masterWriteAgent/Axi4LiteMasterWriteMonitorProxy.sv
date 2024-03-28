@@ -28,9 +28,6 @@ class Axi4LiteMasterWriteMonitorProxy extends uvm_component;
   extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-  extern virtual task axi4LiteMasterWriteAddress();
-  extern virtual task axi4LiteMasterWriteData();
-  extern virtual task axi4LiteMasterWriteResponse();
 
 endclass : Axi4LiteMasterWriteMonitorProxy
 
@@ -63,34 +60,9 @@ endfunction : end_of_elaboration_phase
 
 
 task Axi4LiteMasterWriteMonitorProxy::run_phase(uvm_phase phase);
-/*
-  axi4LiteMasterWriteMonitorBFM.wait_for_aresetn();
 
-  fork 
-    axi4LiteMasterWriteAddress();
-    axi4LiteMasterWriteData();
-    axi4LiteMasterWriteResponse();
-  join
-*/
+  axi4LiteMasterWriteMonitorBFM.wait_for_aresetn();
 endtask : run_phase
 
-// Task: axi4LiteMasterWriteAddress
-task Axi4LiteMasterWriteMonitorProxy::axi4LiteMasterWriteAddress();
-
-
-endtask
-
-// Task: axi4LiteMasterWriteData
-task Axi4LiteMasterWriteMonitorProxy::axi4LiteMasterWriteData();
-
-
-endtask
-
-
-// Task: axi4LiteMasterWriteResponse
-task Axi4LiteMasterWriteMonitorProxy::axi4LiteMasterWriteResponse();
-
-
-endtask
 `endif
 

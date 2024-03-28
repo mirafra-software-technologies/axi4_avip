@@ -16,7 +16,7 @@ class Axi4LiteSlaveReadAgentConfig extends uvm_object;
   //Used for enabling the master agent coverage
   bit hasCoverage;
 
-  bit [DELAY_WIDTH-1:0] delayForReadyReadCfgValue[];
+  bit [DELAY_WIDTH-1:0] maxDelayForReady;
 
   extern function new(string name = "Axi4LiteSlaveReadAgentConfig");
   extern function void do_print(uvm_printer printer);
@@ -31,10 +31,7 @@ function void Axi4LiteSlaveReadAgentConfig::do_print(uvm_printer printer);
 
   printer.print_string ("isActive",   isActive.name());
   printer.print_field ("hasCoverage", hasCoverage, $bits(hasCoverage), UVM_DEC);
-         
-  foreach(delayForReadyReadCfgValue[i]) begin
-    printer.print_field ($sformatf("delayForReadyReadCfgValue[%0d]",i),this.delayForReadyReadCfgValue[i],$bits(delayForReadyReadCfgValue[i]),UVM_HEX);
-  end
+  printer.print_field ("maxDelayForReady", maxDelayForReady, $bits(maxDelayForReady), UVM_DEC);
 endfunction : do_print
 
 `endif

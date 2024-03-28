@@ -16,7 +16,7 @@ class Axi4LiteSlaveWriteAgentConfig extends uvm_object;
   //Used for enabling the slave agent coverage
   bit hasCoverage;
 
-  bit [DELAY_WIDTH-1:0] delayForReadyWriteCfgValue[];
+  bit [DELAY_WIDTH-1:0] maxDelayForReady;
 
   extern function new(string name = "Axi4LiteSlaveWriteAgentConfig");
   extern function void do_print(uvm_printer printer);
@@ -31,10 +31,7 @@ function void Axi4LiteSlaveWriteAgentConfig::do_print(uvm_printer printer);
 
   printer.print_string ("isActive",   isActive.name());
   printer.print_field ("hasCoverage", hasCoverage, $bits(hasCoverage), UVM_DEC);
-
-  foreach(delayForReadyWriteCfgValue[i]) begin
-    printer.print_field ($sformatf("delayForReadyWriteCfgValue[%0d]",i),this.delayForReadyWriteCfgValue[i],$bits(delayForReadyWriteCfgValue[i]),UVM_HEX);
-  end
+  printer.print_field ("maxDelayForReady", maxDelayForReady, $bits(maxDelayForReady), UVM_DEC);
 endfunction : do_print
 
 `endif

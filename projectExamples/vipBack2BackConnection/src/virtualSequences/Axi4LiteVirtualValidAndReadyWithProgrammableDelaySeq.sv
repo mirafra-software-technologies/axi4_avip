@@ -40,10 +40,15 @@ task Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq::body();
  
   fork
     begin: MASTER_WRITE
+      repeat(1) begin
         axi4LiteMasterWriteTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
+      end
     end
+
     begin: MASTER_READ
-       axi4LiteMasterReadTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
+      repeat(1) begin
+        axi4LiteMasterReadTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
+      end
     end
   join_none
 endtask : body

@@ -20,7 +20,7 @@ task Axi4LiteSlaveReadTransferRandomReadyDelaySeq::body();
  
   start_item(req);
   if(!req.randomize() with {
-                  readDelayForReady inside {p_sequencer.axi4LiteSlaveReadAgentConfig.delayForReadyReadCfgValue};
+                  readDelayForReady inside {[0:p_sequencer.axi4LiteSlaveReadAgentConfig.maxDelayForReady]};
                 }) begin
     `uvm_fatal("Axi4LiteSlaveReadTransferRandomReadyDelaySeq","Rand failed");
   end

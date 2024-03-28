@@ -1,11 +1,6 @@
 `ifndef AXI4LITESLAVEWRITEMONITORBFM_INCLUDED_
 `define AXI4LITESLAVEWRITEMONITORBFM_INCLUDED_
 
-//--------------------------------------------------------------------------------------------
-//Interface : Axi4LiteSlaveWriteMonitorBFM
-//Used as the HDL monitor for axi4
-//It connects with the HVL Axi4LiteSlaveWriteMonitorProxy for driving the stimulus
-//--------------------------------------------------------------------------------------------
 import Axi4LiteGlobalsPkg::*;
 
 interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk, 
@@ -17,26 +12,30 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
   import uvm_pkg::*;
   `include "uvm_macros.svh" 
   
-  //-------------------------------------------------------
-  // Importing axi4 Global Package master package
-  //-------------------------------------------------------
   import Axi4LiteSlaveWritePkg::Axi4LiteSlaveWriteMonitorProxy; 
-  //Variable : axi4LiteSlaveWriteMonitorProxy
-  //Creating the handle for proxy monitor
  
   Axi4LiteSlaveWriteMonitorProxy axi4LiteSlaveWriteMonitorProxy;
   
-  //-------------------------------------------------------
-  // Task: wait_for_aresetn
-  // Waiting for the system reset to be active low
-  //-------------------------------------------------------
   task wait_for_aresetn();
     @(negedge aresetn);
     `uvm_info("FROM SLAVE MON BFM",$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
-   
     @(posedge aresetn);
     `uvm_info("FROM SLAVE MON BFM",$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : wait_for_aresetn
+
+  task writeChannelTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,output axi4LiteWriteTransferPacketStruct slaveWritePacketStruct);
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave write"),UVM_HIGH)
+    do begin
+      @(posedge aclk);
+    end while(valid===0);
+
+    do begin
+      @(posedge aclk);
+      slaveWritePacketStruct.writeDelayForReady++; 
+    end while(ready===0);
+
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave write slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
+  endtask
 
 endinterface : Axi4LiteSlaveWriteMonitorBFM
 

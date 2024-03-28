@@ -56,20 +56,20 @@ task Axi4LiteMasterWriteDriverProxy::writeTransferTask();
   
   forever begin
     Axi4LiteMasterWriteTransaction  masterWriteTx;
-    axi4LiteWriteTransferCfgStruct  masterWriteCfgStruct;
-    axi4LiteWriteTransferCharStruct masterWriteCharStruct;
+    axi4LiteWriteTransferConfigStruct  masterWriteConfigStruct;
+    axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
 
     axi4LiteMasterWriteSeqItemPort.get_next_item(reqWrite);
     `uvm_info(get_type_name(), $sformatf(
               "MASTER_WRITE_TASK::Before Sending_Req_Write_Packet = \n%s", reqWrite.sprint()),
               UVM_HIGH);
 
-    Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWriteCharStruct);
-    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteCfgStruct);
+    Axi4LiteMasterWriteSeqItemConverter::fromWriteClass(reqWrite, masterWritePacketStruct);
+    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
 
-    axi4LiteMasterWriteDriverBFM.writeChannelTask(masterWriteCfgStruct, masterWriteCharStruct);
+    axi4LiteMasterWriteDriverBFM.writeChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
 
-    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWriteCharStruct,masterWriteTx);
+    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,masterWriteTx);
 
     axi4LiteMasterWriteSeqItemPort.item_done();
   end

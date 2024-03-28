@@ -5,8 +5,8 @@ class Axi4LiteMasterReadSeqItemConverter extends uvm_object;
   `uvm_object_utils(Axi4LiteMasterReadSeqItemConverter)
   
   extern function new(string name = "Axi4LiteMasterReadSeqItemConverter");
-  extern static function void fromReadClass(input Axi4LiteMasterReadTransaction input_conv_h,output axi4LiteReadTransferCharStruct output_conv_h);
- extern static function void toReadClass(input axi4LiteReadTransferCharStruct input_conv_h,output Axi4LiteMasterReadTransaction output_conv_h);
+  extern static function void fromReadClass(input Axi4LiteMasterReadTransaction input_conv_h,output axi4LiteReadTransferPacketStruct output_conv_h);
+ extern static function void toReadClass(input axi4LiteReadTransferPacketStruct input_conv_h,output Axi4LiteMasterReadTransaction output_conv_h);
   extern function void do_print(uvm_printer printer);
 endclass : Axi4LiteMasterReadSeqItemConverter
 
@@ -14,13 +14,13 @@ function Axi4LiteMasterReadSeqItemConverter::new(string name = "Axi4LiteMasterRe
   super.new(name);
 endfunction : new
 
-function void Axi4LiteMasterReadSeqItemConverter::fromReadClass( input Axi4LiteMasterReadTransaction input_conv_h,output axi4LiteReadTransferCharStruct output_conv_h);
+function void Axi4LiteMasterReadSeqItemConverter::fromReadClass( input Axi4LiteMasterReadTransaction input_conv_h,output axi4LiteReadTransferPacketStruct output_conv_h);
 
   `uvm_info("axi4_master_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
   
 endfunction : fromReadClass 
 
-function void Axi4LiteMasterReadSeqItemConverter::toReadClass( input axi4LiteReadTransferCharStruct
+function void Axi4LiteMasterReadSeqItemConverter::toReadClass( input axi4LiteReadTransferPacketStruct
   input_conv_h, output Axi4LiteMasterReadTransaction output_conv_h);
 
   output_conv_h = new();
@@ -29,7 +29,7 @@ endfunction : toReadClass
 
 
 function void Axi4LiteMasterReadSeqItemConverter::do_print(uvm_printer printer);
-  axi4LiteReadTransferCharStruct readCharStruct; 
+  axi4LiteReadTransferPacketStruct readPacketStruct; 
   super.do_print(printer);
 
 endfunction : do_print

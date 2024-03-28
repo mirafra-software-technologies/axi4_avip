@@ -29,34 +29,20 @@ interface Axi4LiteSlaveWriteDriverBFM(input      aclk,
     `uvm_info(name,$sformatf("SYSTEM RESET DE-ACTIVATED"),UVM_HIGH)
   endtask 
 
-  task writeChannelTask(input axi4LiteWriteTransferCfgStruct slaveWriteCfgStruct, 
-                        inout axi4LiteWriteTransferCharStruct slaveWriteCharStruct
+  task writeChannelTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct, 
+                        inout axi4LiteWriteTransferPacketStruct slaveWritePacketStruct
                        );
     `uvm_info(name,$sformatf("WRITE_CHANNEL_TASK_STARTED"),UVM_HIGH)
     do begin
       @(posedge aclk);
     end while(valid===0);
 
-    repeat(slaveWriteCharStruct.writeDelayForReady) begin 
+    repeat(slaveWritePacketStruct.writeDelayForReady) begin 
       @(posedge aclk);
     end
     ready <= 1'b1;
     `uvm_info(name,$sformatf("WRITE_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask
-
-/*
-task slaveWriteAddressChannelTask(inout axi4LiteWriteTransferCharStruct slaveWriteCharStruct,axi4LiteWriteTransferCfgStruct slaveWriteCfgStruct);
-
-endtask : slaveWriteAddressChannelTask
-
-task slaveWriteDataChannelTask(inout axi4LiteWriteTransferCharStruct slaveWriteCharStruct,axi4LiteWriteTransferCfgStruct slaveWriteCfgStruct);
-
-endtask : slaveWriteDataChannelTask
-
-task slaveWriteResponseChannelTask(inout axi4LiteWriteTransferCharStruct slaveWriteCharStruct,axi4LiteWriteTransferCfgStruct slaveWriteCfgStruct);
-
-endtask : slaveWriteResponseChannelTask
-*/
 
 endinterface : Axi4LiteSlaveWriteDriverBFM
 

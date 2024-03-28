@@ -12,10 +12,10 @@ interface Axi4LiteAssertions (input aclk,
     `uvm_info("Axi4LiteAssertions","Axi4LiteAssertions",UVM_LOW);
   end
 
-  property ifSignalsAreUnknown(logic valid);
-    @(negedge aresetn)
-     1 |-> !$isunknown(valid);
-  endproperty : ifSignalsAreUnknown
+  property ifResetAssertedThenValidLow(logic valid);
+    @(negedge aresetn) disable iff (aresetn === 1)
+         (valid===0);
+  endproperty : ifResetAssertedThenValidLow
 
   property validAssertedThenRemainsHighUntillReadyAsserted(logic valid, logic ready);
     @(posedge aclk) disable iff (!aresetn)  
@@ -27,17 +27,6 @@ interface Axi4LiteAssertions (input aclk,
     $rose(valid) |-> ##[0:15] $rose(ready);
   endproperty : validAssertedThenReadyNeedsToBeAssertedWithin16Clk
 
-/*
-  property ifSignalsAreUnknown(logic valid);
-    logic Valid;
-    @(negedge aresetn)
-     (1,Valid=valid) |-> (1,isUnknown(Valid,0));
-  endproperty : ifSignalsAreUnknown
-
-  task automatic isUnknown(ref logic Valid, input logic value);
-    assert (Valid == value);
-  endtask
-*/
 endinterface : Axi4LiteAssertions
 
 `endif

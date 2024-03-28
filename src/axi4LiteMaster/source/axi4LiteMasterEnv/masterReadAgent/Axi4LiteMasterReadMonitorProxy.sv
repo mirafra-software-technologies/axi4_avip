@@ -22,8 +22,6 @@ class Axi4LiteMasterReadMonitorProxy extends uvm_component;
   extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-  extern virtual task axi4LiteMasterReadAddress();
-  extern virtual task axi4LiteMasterReadData();
 
 endclass : Axi4LiteMasterReadMonitorProxy
 
@@ -52,23 +50,9 @@ function void Axi4LiteMasterReadMonitorProxy::end_of_elaboration_phase(uvm_phase
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteMasterReadMonitorProxy::run_phase(uvm_phase phase);
-/*
+
   axi4LiteMasterReadMonitorBFM.wait_for_aresetn();
-
-  fork 
-    axi4LiteMasterReadAddress();
-    axi4LiteMasterReadData();
-  join
-*/
 endtask : run_phase
-
-task Axi4LiteMasterReadMonitorProxy::axi4LiteMasterReadAddress();
-
-endtask
-
-task Axi4LiteMasterReadMonitorProxy::axi4LiteMasterReadData();
-
-endtask
 
 `endif
 

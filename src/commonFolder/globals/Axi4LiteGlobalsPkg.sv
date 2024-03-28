@@ -16,25 +16,9 @@ package Axi4LiteGlobalsPkg;
   parameter int DATA_WIDTH = 32;
 
   parameter int DELAY_WIDTH = 4;
+  parameter int DELAY_SIZE = 1;
 
-  parameter int DELAY_VALUE = 16;
-
-  parameter DELAY_VALUE0  = 4'b0000;
-  parameter DELAY_VALUE1  = 4'b0001;
-  parameter DELAY_VALUE2  = 4'b0010;
-  parameter DELAY_VALUE3  = 4'b0011;
-  parameter DELAY_VALUE4  = 4'b0100;
-  parameter DELAY_VALUE5  = 4'b0101;
-  parameter DELAY_VALUE6  = 4'b0110;
-  parameter DELAY_VALUE7  = 4'b0111;
-  parameter DELAY_VALUE8  = 4'b1000;
-  parameter DELAY_VALUE9  = 4'b1001;
-  parameter DELAY_VALUE10 = 4'b1010;
-  parameter DELAY_VALUE11 = 4'b1011;
-  parameter DELAY_VALUE12 = 4'b1100;
-  parameter DELAY_VALUE13 = 4'b1101;
-  parameter DELAY_VALUE14 = 4'b1110;
-  parameter DELAY_VALUE15 = 4'b1111;
+  parameter int MAX_DELAY_VALUE = 16;
 
   typedef enum bit {
     BIG_ENDIAN    = 1'b0,
@@ -93,19 +77,19 @@ package Axi4LiteGlobalsPkg;
   
   typedef struct {
     bit [DELAY_WIDTH-1:0]   writeDelayForReady;
-  } axi4LiteWriteTransferCharStruct; 
+  } axi4LiteWriteTransferPacketStruct; 
 
   typedef struct {
     bit [DELAY_WIDTH-1:0]   readDelayForReady;
-  } axi4LiteReadTransferCharStruct;
+  } axi4LiteReadTransferPacketStruct;
 
   typedef struct {
     bit [DELAY_WIDTH-1:0] delayForReadyWriteCfgValue;
-  } axi4LiteWriteTransferCfgStruct;
+  } axi4LiteWriteTransferConfigStruct;
 
   typedef struct {
     bit [DELAY_WIDTH-1:0] delayForReadyReadCfgValue;
-  } axi4LiteReadTransferCfgStruct;
+  } axi4LiteReadTransferConfigStruct;
 
 endpackage : Axi4LiteGlobalsPkg
 `endif

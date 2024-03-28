@@ -13,14 +13,14 @@ class Axi4LiteSlaveReadMonitorProxy extends uvm_monitor;
    uvm_analysis_port#(Axi4LiteSlaveReadTransaction) axi4LiteSlaveReadAddressAnalysisPort;
    uvm_analysis_port#(Axi4LiteSlaveReadTransaction) axi4LiteSlaveReadDataAnalysisPort;
  
+   uvm_tlm_analysis_fifo #(Axi4LiteSlaveReadTransaction) axi4LiteSlaveReadAddressFIFO;
    uvm_tlm_analysis_fifo #(Axi4LiteSlaveReadTransaction) axi4LiteSlaveReadDataFIFO;
   
   extern function new(string name = "Axi4LiteSlaveReadMonitorProxy", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-  extern virtual task axi4LiteSlaveReadAddress();
-  extern virtual task axi4LiteSlaveReadData();
+  extern virtual task sampleTask();
 
 endclass : Axi4LiteSlaveReadMonitorProxy
 
@@ -46,19 +46,25 @@ function void Axi4LiteSlaveReadMonitorProxy::end_of_elaboration_phase(uvm_phase 
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteSlaveReadMonitorProxy::run_phase(uvm_phase phase);
-/*
+
   axi4LiteSlaveReadMonitorBFM.wait_for_aresetn();
-  fork 
-    axi4LiteSlaveReadAddress();
-    axi4LiteSlaveReadData();
-  join
-*/
+  sampleTask(); 
 endtask : run_phase 
 
-task Axi4LiteSlaveReadMonitorProxy::axi4LiteSlaveReadAddress();
-endtask
+task Axi4LiteSlaveReadMonitorProxy::sampleTask();
+   Axi4LiteSlaveReadTransaction slaveReadTx;
+   axi4LiteReadTransferConfigStruct slaveReadConfigStruct;
+   axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
 
-task Axi4LiteSlaveReadMonitorProxy::axi4LiteSlaveReadData();
+   axi4LiteSlaveReadMonitorBFM.readChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
+
+   Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,reqRead);
+
+    // Clone and publish the cloned item to the subscribers
+    $cast(slaveReadTx,reqRead.clone());
+
+    `uvm_info(get_type_name(),$sformatf("Packet received from slave read monitor BFM clone packet is \n %s",slaveReadTx.sprint()),UVM_HIGH)
+    axi4LiteSlaveReadAddressAnalysisPort.write(slaveReadTx);
 endtask
 
 `endif

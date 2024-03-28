@@ -28,7 +28,7 @@ task Axi4LiteVirtualMasterValidGenerateSeq::body();
     begin: MASTER_READ
        axi4LiteMasterReadTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
     end
-  join_none
+  join
 endtask : body
  
 `endif
