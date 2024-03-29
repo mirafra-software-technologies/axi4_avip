@@ -15,7 +15,7 @@ package Axi4LiteGlobalsPkg;
 
   parameter int DATA_WIDTH = 32;
 
-  parameter int DELAY_WIDTH = 4;
+  parameter int DELAY_WIDTH = 5;
 
   parameter int MAX_DELAY_VALUE = 15;
 

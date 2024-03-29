@@ -10,6 +10,7 @@ package Axi4LiteSlaveWriteSeqPkg;
  
   `include "Axi4LiteSlaveWriteBaseSeq.sv"
   `include "Axi4LiteSlaveWriteTransferRandomReadyDelaySeq.sv"
+  `include "Axi4LiteSlaveWriteTransferRandomReadyDelayGreaterThanMaxDelaySeq.sv"
 
 endpackage : Axi4LiteSlaveWriteSeqPkg
 `endif

@@ -26,6 +26,7 @@ package Axi4LiteTestPkg;
   `include "Axi4LiteSlaveRandomReadyDelayTest.sv"
   `include "Axi4LiteMasterValidGenerateTest.sv"
   `include "Axi4LiteValidAndReadyWithProgrammableDelayTest.sv"
+  `include "Axi4LiteRandomReadyDelayGreaterThanMaxDelayTest.sv"
 
 endpackage : Axi4LiteTestPkg
 

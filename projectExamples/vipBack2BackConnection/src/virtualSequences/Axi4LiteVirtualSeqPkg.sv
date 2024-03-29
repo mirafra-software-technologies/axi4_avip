@@ -23,6 +23,8 @@ package Axi4LiteVirtualSeqPkg;
   `include "Axi4LiteVirtualSlaveRandomReadyDelaySeq.sv"
   `include "Axi4LiteVirtualMasterValidGenerateSeq.sv"
   `include "Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq.sv"
+  `include "Axi4LiteVirtualRandomReadyDelayGreaterThanMaxDelaySeq.sv"
+
 endpackage : Axi4LiteVirtualSeqPkg
 
 `endif
