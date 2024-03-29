@@ -10,7 +10,7 @@
 
 ## Developers, Welcome
 We believe in growing together and if you'd like to contribute, please do check out the contributing guide below:  
-
+https://github.com/mbits-mirafra/axi4_avip/blob/axi4Lite_handshake_flow/contribution_guidelines.md
 
 ## Installation - Get the VIP collateral from the GitHub repository
 
@@ -56,6 +56,9 @@ cd axi4_avip/projectExamples/vipBack2BackConnection/src
 # Compilation && Simulation:  
 make compile && make simulate
 ```
+## Wavedrom code and assertion scenarious wavefrom 
+
+https://github.com/mbits-mirafra/axi4_avip/issues/109
 
 ## Contact Mirafra Team  
 You can reach out to us over mbits@mirafra.com
