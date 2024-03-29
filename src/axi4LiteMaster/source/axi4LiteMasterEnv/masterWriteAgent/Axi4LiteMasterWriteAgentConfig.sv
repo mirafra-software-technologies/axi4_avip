@@ -10,6 +10,8 @@ class Axi4LiteMasterWriteAgentConfig extends uvm_object;
   //Used for enabling the master agent coverage
   bit hasCoverage;
 
+  bit [DELAY_WIDTH:0] maxDelayForReady;
+
   extern function new(string name = "Axi4LiteMasterWriteAgentConfig");
   extern function void do_print(uvm_printer printer);
 endclass : Axi4LiteMasterWriteAgentConfig
@@ -23,6 +25,7 @@ function void Axi4LiteMasterWriteAgentConfig::do_print(uvm_printer printer);
   
   printer.print_string ("isActive",isActive.name());
   printer.print_field ("hasCoverage",  hasCoverage, $bits(hasCoverage),  UVM_DEC);
+  printer.print_field ("maxDelayForReady",  maxDelayForReady, $bits(maxDelayForReady),  UVM_DEC);
 endfunction : do_print
 
 `endif

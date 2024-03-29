@@ -16,9 +16,8 @@ package Axi4LiteGlobalsPkg;
   parameter int DATA_WIDTH = 32;
 
   parameter int DELAY_WIDTH = 4;
-  parameter int DELAY_SIZE = 1;
 
-  parameter int MAX_DELAY_VALUE = 16;
+  parameter int MAX_DELAY_VALUE = 15;
 
   typedef enum bit {
     BIG_ENDIAN    = 1'b0,
@@ -85,10 +84,12 @@ package Axi4LiteGlobalsPkg;
 
   typedef struct {
     bit [DELAY_WIDTH-1:0] delayForReadyWriteCfgValue;
+    bit [DELAY_WIDTH:0]   maxDelayForReady;
   } axi4LiteWriteTransferConfigStruct;
 
   typedef struct {
     bit [DELAY_WIDTH-1:0] delayForReadyReadCfgValue;
+    bit [DELAY_WIDTH:0]   maxDelayForReady;
   } axi4LiteReadTransferConfigStruct;
 
 endpackage : Axi4LiteGlobalsPkg

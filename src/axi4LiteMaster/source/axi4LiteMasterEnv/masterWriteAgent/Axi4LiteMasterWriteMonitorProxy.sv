@@ -28,6 +28,7 @@ class Axi4LiteMasterWriteMonitorProxy extends uvm_component;
   extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
+  extern virtual task sampleTask();
 
 endclass : Axi4LiteMasterWriteMonitorProxy
 
@@ -60,9 +61,28 @@ endfunction : end_of_elaboration_phase
 
 
 task Axi4LiteMasterWriteMonitorProxy::run_phase(uvm_phase phase);
-
   axi4LiteMasterWriteMonitorBFM.wait_for_aresetn();
+  sampleTask(); 
 endtask : run_phase
+
+task Axi4LiteMasterWriteMonitorProxy::sampleTask();
+  forever begin
+   Axi4LiteMasterWriteTransaction masterWriteTx;
+   axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
+   axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+
+   axi4LiteMasterWriteMonitorBFM.writeChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
+
+   Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
+
+   // // Clone and publish the cloned item to the subscribers
+   // $cast(masterWriteTx,reqWrite.clone());
+
+   // `uvm_info(get_type_name(),$sformatf("Packet received from master write monitor BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
+   // axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
+
+  end
+endtask
 
 `endif
 

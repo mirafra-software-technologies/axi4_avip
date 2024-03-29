@@ -15,6 +15,7 @@ package Axi4LiteMasterWritePkg;
   `include "Axi4LiteMasterWriteSequencer.sv"
   `include "Axi4LiteMasterWriteDriverProxy.sv"
   `include "Axi4LiteMasterWriteMonitorProxy.sv"
+  `include "Axi4LiteMasterWriteValidGeneratedReadyNotYetGeneratedFatalMonitorProxy.sv"
   `include "Axi4LiteMasterWriteCoverage.sv"
   `include "Axi4LiteMasterWriteAgent.sv"
   

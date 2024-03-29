@@ -52,6 +52,7 @@ task Axi4LiteSlaveReadMonitorProxy::run_phase(uvm_phase phase);
 endtask : run_phase 
 
 task Axi4LiteSlaveReadMonitorProxy::sampleTask();
+  forever begin
    Axi4LiteSlaveReadTransaction slaveReadTx;
    axi4LiteReadTransferConfigStruct slaveReadConfigStruct;
    axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
@@ -65,6 +66,7 @@ task Axi4LiteSlaveReadMonitorProxy::sampleTask();
 
     `uvm_info(get_type_name(),$sformatf("Packet received from slave read monitor BFM clone packet is \n %s",slaveReadTx.sprint()),UVM_HIGH)
     axi4LiteSlaveReadAddressAnalysisPort.write(slaveReadTx);
+  end
 endtask
 
 `endif
