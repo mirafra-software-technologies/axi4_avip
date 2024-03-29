@@ -22,9 +22,9 @@ function void Axi4LiteMasterWriteTransaction::post_randomize();
 endfunction : post_randomize
 
 function void Axi4LiteMasterWriteTransaction::do_copy(uvm_object rhs);
-  Axi4LiteMasterWriteTransaction Axi4LiteMasterWriteTransaction_copy_obj;
+  Axi4LiteMasterWriteTransaction Axi4LiteMasterWriteTransactionCopyObj;
 
-  if(!$cast(Axi4LiteMasterWriteTransaction_copy_obj,rhs)) begin
+  if(!$cast(Axi4LiteMasterWriteTransactionCopyObj,rhs)) begin
     `uvm_fatal("do_copy","cast of the rhs object failed")
   end
   super.do_copy(rhs);
@@ -32,14 +32,14 @@ function void Axi4LiteMasterWriteTransaction::do_copy(uvm_object rhs);
 endfunction : do_copy
 
 function bit Axi4LiteMasterWriteTransaction::do_compare (uvm_object rhs, uvm_comparer comparer);
-  Axi4LiteMasterWriteTransaction Axi4LiteMasterWriteTransaction_compare_obj;
+  Axi4LiteMasterWriteTransaction Axi4LiteMasterWriteTransactionCompareObj;
 
-  if(!$cast(Axi4LiteMasterWriteTransaction_compare_obj,rhs)) begin
+  if(!$cast(Axi4LiteMasterWriteTransactionCompareObj,rhs)) begin
     `uvm_fatal("FATAL_axi_MASTER_TX_DO_COMPARE_FAILED","cast of the rhs object failed")
     return 0;
   end
   
-  return super.do_compare(Axi4LiteMasterWriteTransaction_compare_obj, comparer);
+  return super.do_compare(Axi4LiteMasterWriteTransactionCompareObj, comparer);
 endfunction : do_compare
 
 function void Axi4LiteMasterWriteTransaction::do_print(uvm_printer printer);

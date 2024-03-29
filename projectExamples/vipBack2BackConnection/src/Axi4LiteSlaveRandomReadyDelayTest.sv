@@ -20,8 +20,13 @@ endfunction : new
 function void Axi4LiteSlaveRandomReadyDelayTest::build_phase(uvm_phase phase);
   super.build_phase(phase);
  
-// Axi4LiteVirtualBaseSeq::type_id::set_inst_override(Axi4LiteVirtualSlaveRandomReadyDelaySeq::get_type(),"get_full_name().axi4LiteVirtualBaseSeq");
-// set_inst_override_by_type("axi4LiteVirtualBaseSeq", Axi4LiteVirtualBaseSeq::get_type(), Axi4LiteVirtualSlaveRandomReadyDelaySeq::get_type());
+  foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteSlaveWriteAgentConfig[i])begin
+    set_inst_override_by_type("axi4LiteEnv.*", Axi4LiteSlaveWriteMonitorProxy::get_type(), Axi4LiteSlaveWriteValidNotYetGeneratedFatalMonitorProxy::get_type());
+  end 
+
+  foreach(axi4LiteEnvConfig.axi4LiteSlaveEnvConfig.axi4LiteSlaveReadAgentConfig[i])begin
+    set_inst_override_by_type("axi4LiteEnv.*", Axi4LiteSlaveReadMonitorProxy::get_type(), Axi4LiteSlaveReadValidNotYetGeneratedFatalMonitorProxy::get_type());
+  end 
 endfunction : build_phase
  
 task Axi4LiteSlaveRandomReadyDelayTest::run_phase(uvm_phase phase);

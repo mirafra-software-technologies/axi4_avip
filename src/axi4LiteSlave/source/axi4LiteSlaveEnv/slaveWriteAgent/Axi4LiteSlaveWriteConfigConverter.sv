@@ -14,11 +14,12 @@ function Axi4LiteSlaveWriteConfigConverter::new(string name = "Axi4LiteSlaveWrit
 endfunction : new                                                                                   
 
 function void Axi4LiteSlaveWriteConfigConverter::fromClass(input Axi4LiteSlaveWriteAgentConfig input_conv,output axi4LiteWriteTransferConfigStruct output_conv);
+  input_conv.maxDelayForValid = output_conv.maxDelayForValid;
 endfunction: fromClass   
 
 function void Axi4LiteSlaveWriteConfigConverter:: do_print(uvm_printer printer);                            
   axi4LiteWriteTransferConfigStruct configStruct;
-
+   printer.print_field("maxDelayForValid",configStruct.maxDelayForValid,$bits(configStruct.maxDelayForValid),UVM_HEX);
 endfunction : do_print                                                                              
 
 `endif

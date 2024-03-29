@@ -1,22 +1,15 @@
 `ifndef AXI4LITESLAVEREADAGENTCONFIG_INCLUDED_
 `define AXI4LITESLAVEREADAGENTCONFIG_INCLUDED_
 
-//--------------------------------------------------------------------------------------------
-// Class: Axi4LiteSlaveReadAgentConfig
-// Used as the configuration class for axi4_slave agent and it's components
-//--------------------------------------------------------------------------------------------
 class Axi4LiteSlaveReadAgentConfig extends uvm_object;
   `uvm_object_utils(Axi4LiteSlaveReadAgentConfig)
 
-  //Variable: isActive
-  //Used for creating the agent in either passive or active mode
   uvm_active_passive_enum isActive = UVM_ACTIVE;  
   
-  //Variable: hasCoverage
-  //Used for enabling the master agent coverage
   bit hasCoverage;
 
   bit [DELAY_WIDTH-1:0] maxDelayForReady;
+  bit [DELAY_WIDTH:0] maxDelayForValid;
 
   extern function new(string name = "Axi4LiteSlaveReadAgentConfig");
   extern function void do_print(uvm_printer printer);
@@ -32,6 +25,7 @@ function void Axi4LiteSlaveReadAgentConfig::do_print(uvm_printer printer);
   printer.print_string ("isActive",   isActive.name());
   printer.print_field ("hasCoverage", hasCoverage, $bits(hasCoverage), UVM_DEC);
   printer.print_field ("maxDelayForReady", maxDelayForReady, $bits(maxDelayForReady), UVM_DEC);
+  printer.print_field ("maxDelayForValid", maxDelayForValid, $bits(maxDelayForValid), UVM_DEC);
 endfunction : do_print
 
 `endif

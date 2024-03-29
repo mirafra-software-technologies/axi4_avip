@@ -50,7 +50,7 @@ task Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq::body();
         axi4LiteMasterReadTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
       end
     end
-  join_none
+  join
 endtask : body
  
 `endif

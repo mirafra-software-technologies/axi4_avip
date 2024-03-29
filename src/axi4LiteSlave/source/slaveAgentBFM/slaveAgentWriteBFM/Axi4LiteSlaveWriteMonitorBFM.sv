@@ -16,6 +16,8 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
  
   Axi4LiteSlaveWriteMonitorProxy axi4LiteSlaveWriteMonitorProxy;
   
+  int validDelayCounter;
+
   task wait_for_aresetn();
     @(negedge aresetn);
     `uvm_info("FROM SLAVE MON BFM",$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
@@ -35,6 +37,23 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
     end while(ready===0);
 
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave write slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
+  endtask
+
+  task validDelayTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct);
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave write validDelayTask"),UVM_HIGH)
+    do begin
+      @(posedge aclk);
+      validDelayCounter++;
+      if(validDelayCounter > slaveWriteConfigStruct.maxDelayForValid) begin
+        `uvm_fatal("SLAVE WRITE MONITOR", "VALID_DELAY_COUNTED_MAXIMUM");
+      end
+    end while(valid===0);
+
+    do begin
+      @(posedge aclk);
+    end while(ready===0);
+
+    `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave write validDelayTask slaveWriteConfigStruct=%p ",slaveWriteConfigStruct),UVM_HIGH)
   endtask
 
 endinterface : Axi4LiteSlaveWriteMonitorBFM

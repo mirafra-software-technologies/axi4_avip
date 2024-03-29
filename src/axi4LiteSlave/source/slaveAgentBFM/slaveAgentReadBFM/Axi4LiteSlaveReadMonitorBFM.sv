@@ -15,6 +15,8 @@ interface Axi4LiteSlaveReadMonitorBFM(input bit aclk,
   import Axi4LiteSlaveReadPkg::Axi4LiteSlaveReadMonitorProxy;
  
   Axi4LiteSlaveReadMonitorProxy axi4LiteSlaveReadMonitorProxy;
+
+  int validDelayCounter;
   
   task wait_for_aresetn();
     @(negedge aresetn);
@@ -24,7 +26,6 @@ interface Axi4LiteSlaveReadMonitorBFM(input bit aclk,
   endtask : wait_for_aresetn
 
   task readChannelTask(input axi4LiteReadTransferConfigStruct slaveReadConfigStruct,output axi4LiteReadTransferPacketStruct slaveReadPacketStruct);
-
     @(posedge aclk);
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("from axi4Lite Slave read"),UVM_HIGH)
 
@@ -38,6 +39,23 @@ interface Axi4LiteSlaveReadMonitorBFM(input bit aclk,
     end while(ready===0);
 
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("after while loop from axi4Lite Slave read slaveReadPacketStruct=%p ",slaveReadPacketStruct),UVM_HIGH)
+  endtask
+
+  task validDelayTask(input axi4LiteReadTransferConfigStruct slaveReadConfigStruct);
+    `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("from axi4Lite Slave read validDelayTask"),UVM_HIGH)
+    do begin
+      @(posedge aclk);
+      validDelayCounter++;
+      if(validDelayCounter > slaveReadConfigStruct.maxDelayForValid) begin
+        `uvm_fatal("SLAVE READ MONITOR", "VALID_DELAY_COUNTED_MAXIMUM");
+      end
+    end while(valid===0);
+
+    do begin
+      @(posedge aclk);
+    end while(ready===0);
+
+    `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("after while loop from axi4Lite Slave read validDelayTask slaveReadConfigStruct=%p ",slaveReadConfigStruct),UVM_HIGH)
   endtask
 
 endinterface : Axi4LiteSlaveReadMonitorBFM

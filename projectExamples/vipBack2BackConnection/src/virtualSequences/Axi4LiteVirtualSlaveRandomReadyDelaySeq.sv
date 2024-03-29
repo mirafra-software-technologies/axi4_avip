@@ -23,12 +23,16 @@ task Axi4LiteVirtualSlaveRandomReadyDelaySeq::body();
  
   fork
     begin : SLAVE_WRITE
+      forever begin
         axi4LiteSlaveWriteTransferRandomReadyDelaySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveWriteSequencer);
+      end
     end
     begin : SLAVE_READ
+      forever begin
        axi4LiteSlaveReadTransferRandomReadyDelaySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveReadSequencer);
+      end
     end
-  join_none
+  join
  
 endtask : body
  

@@ -85,11 +85,13 @@ package Axi4LiteGlobalsPkg;
   typedef struct {
     bit [DELAY_WIDTH-1:0] delayForReadyWriteCfgValue;
     bit [DELAY_WIDTH:0]   maxDelayForReady;
+    bit [DELAY_WIDTH:0]   maxDelayForValid;
   } axi4LiteWriteTransferConfigStruct;
 
   typedef struct {
     bit [DELAY_WIDTH-1:0] delayForReadyReadCfgValue;
     bit [DELAY_WIDTH:0]   maxDelayForReady;
+    bit [DELAY_WIDTH:0]   maxDelayForValid;
   } axi4LiteReadTransferConfigStruct;
 
 endpackage : Axi4LiteGlobalsPkg

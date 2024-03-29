@@ -15,10 +15,12 @@ function Axi4LiteMasterWriteConfigConverter::new(string name = "Axi4LiteMasterWr
 endfunction : new
 
 function void Axi4LiteMasterWriteConfigConverter::fromClass(input Axi4LiteMasterWriteAgentConfig input_conv, output axi4LiteWriteTransferConfigStruct output_conv);
+  output_conv.maxDelayForReady = input_conv.maxDelayForReady;
 endfunction: fromClass
 
 function void Axi4LiteMasterWriteConfigConverter:: do_print(uvm_printer printer); 
   axi4LiteWriteTransferConfigStruct ConfigStruct;
+  printer.print_field("maxDelayForReady",ConfigStruct.maxDelayForReady,$bits(ConfigStruct.maxDelayForReady),UVM_HEX);
 endfunction : do_print
 
 `endif
