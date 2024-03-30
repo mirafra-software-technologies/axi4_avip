@@ -15,7 +15,7 @@ function Axi4LiteMasterReadConfigConverter::new(string name = "Axi4LiteMasterRea
 endfunction : new
 
 function void Axi4LiteMasterReadConfigConverter::fromClass(input Axi4LiteMasterReadAgentConfig input_conv, output axi4LiteReadTransferConfigStruct output_conv);
-  input_conv.maxDelayForReady = output_conv.maxDelayForReady;
+  output_conv.maxDelayForReady = input_conv.maxDelayForReady;
 endfunction: fromClass
 
 function void Axi4LiteMasterReadConfigConverter:: do_print(uvm_printer printer); 

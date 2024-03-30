@@ -57,6 +57,8 @@ task Axi4LiteSlaveReadMonitorProxy::sampleTask();
    axi4LiteReadTransferConfigStruct slaveReadConfigStruct;
    axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
 
+   Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
+
    axi4LiteSlaveReadMonitorBFM.readChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
 
    Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,reqRead);

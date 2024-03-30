@@ -24,7 +24,6 @@ interface Axi4LiteSlaveWriteDriverBFM(input      aclk,
   task wait_for_system_reset();
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET ACTIVATED"),UVM_HIGH)
-    ready <= 0;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DE-ACTIVATED"),UVM_HIGH)
   endtask 

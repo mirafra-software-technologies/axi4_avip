@@ -39,8 +39,7 @@ import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteDriverProxy;
 
     do begin
       @(posedge aclk);
-    end
-    while(ready !== 1);
+    end while(ready !== 1);
     `uvm_info(name,$sformatf("WRITE_CHANNEL_TASK_ENDED"),UVM_HIGH)
   endtask
 

@@ -71,6 +71,8 @@ task Axi4LiteMasterWriteMonitorProxy::sampleTask();
    axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
    axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
 
+   Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
+
    axi4LiteMasterWriteMonitorBFM.writeChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
 
    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);

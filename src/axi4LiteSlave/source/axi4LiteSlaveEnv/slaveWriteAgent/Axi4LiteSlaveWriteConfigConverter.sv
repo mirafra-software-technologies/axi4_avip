@@ -14,7 +14,7 @@ function Axi4LiteSlaveWriteConfigConverter::new(string name = "Axi4LiteSlaveWrit
 endfunction : new                                                                                   
 
 function void Axi4LiteSlaveWriteConfigConverter::fromClass(input Axi4LiteSlaveWriteAgentConfig input_conv,output axi4LiteWriteTransferConfigStruct output_conv);
-  input_conv.maxDelayForValid = output_conv.maxDelayForValid;
+  output_conv.maxDelayForValid = input_conv.maxDelayForValid;
 endfunction: fromClass   
 
 function void Axi4LiteSlaveWriteConfigConverter:: do_print(uvm_printer printer);                            
