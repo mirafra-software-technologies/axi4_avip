@@ -40,7 +40,7 @@
 ../../../../projectExamples/vipBack2BackConnection/src/Axi4LiteAssertions.sv
 ../../../../projectExamples/vipBack2BackConnection/src/Axi4LiteEnvPkg.sv
 ../../../../projectExamples/vipBack2BackConnection/src/virtualSequences/Axi4LiteVirtualSeqPkg.sv
-../../../../projectExamples/vipBack2BackConnection/src/Axi4LiteTestPkg.sv
+../../../../projectExamples/vipBack2BackConnection/src/test/Axi4LiteTestPkg.sv
 
 ../../../../src/axi4LiteMaster/source/masterAgentBFM/masterAgentWriteBFM/Axi4LiteMasterWriteInterface.sv
 ../../../../src/axi4LiteMaster/source/masterAgentBFM/masterAgentReadBFM/Axi4LiteMasterReadInterface.sv
