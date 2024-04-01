@@ -32,9 +32,9 @@ task Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq::body();
       end
     end
     begin : SLAVE_READ
-  //   forever begin
-  //     axi4LiteSlaveReadTransferRandomReadyDelaySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveReadSequencer);
-  //    end
+     forever begin
+       axi4LiteSlaveReadTransferRandomReadyDelaySeq.start(p_sequencer.axi4LiteSlaveVirtualSequencer.axi4LiteSlaveReadSequencer);
+      end
     end
   join_none
  
@@ -47,7 +47,7 @@ task Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq::body();
 
     begin: MASTER_READ
       repeat(1) begin
-//        axi4LiteMasterReadTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
+        axi4LiteMasterReadTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
       end
     end
   join
