@@ -24,6 +24,7 @@ interface Axi4LiteSlaveWriteDriverBFM(input      aclk,
   task wait_for_system_reset();
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET ACTIVATED"),UVM_HIGH)
+     ready <= 0;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DE-ACTIVATED"),UVM_HIGH)
   endtask 
@@ -36,7 +37,10 @@ interface Axi4LiteSlaveWriteDriverBFM(input      aclk,
       @(posedge aclk);
     end while(valid===0);
 
-    repeat(slaveWritePacketStruct.writeDelayForReady) begin 
+    `uvm_info(name , $sformatf("After while loop Valid asserted "),UVM_HIGH)
+//FIXME
+//What if user given the writeDelayForReady as 0 
+    repeat(slaveWritePacketStruct.writeDelayForReady-1) begin 
       @(posedge aclk);
     end
     ready <= 1'b1;

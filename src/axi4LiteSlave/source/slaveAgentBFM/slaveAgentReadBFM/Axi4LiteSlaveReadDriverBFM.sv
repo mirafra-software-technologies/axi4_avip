@@ -42,7 +42,10 @@ interface Axi4LiteSlaveReadDriverBFM(input bit  aclk,
       @(posedge aclk);
     end while(valid===0);
 
-    repeat(slaveReadPacketStruct.readDelayForReady) begin 
+    `uvm_info(name , $sformatf("After while loop Valid asserted"),UVM_HIGH)
+   //FIXME
+   //What if user given the readDelayForReady as 0 
+     repeat(slaveReadPacketStruct.readDelayForReady-1) begin 
       @(posedge aclk);
     end
     ready <= 1'b1;
