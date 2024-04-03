@@ -3,19 +3,10 @@
 
 import Axi4LiteGlobalsPkg::*;
 
-interface Axi4LiteMasterReadDriverBFM(input bit                      aclk, 
-                                      input bit                      aresetn,
-                                      //Write Address Channel Signals
-                                      //Read Address Channel Signals
-                                      output reg [ADDRESS_WIDTH-1:0] araddr,
-                                      output reg               [2:0] arprot,
-                                      output reg                     arvalid,
-                                      input                          arready,
-                                      //Read Data Channel Signals
-                                      input      [DATA_WIDTH-1: 0] rdata,
-                                      input                  [1:0] rresp,
-                                      input                        rvalid,
-                                      output	reg                   rready  
+interface Axi4LiteMasterReadDriverBFM(input bit  aclk, 
+                                      input bit  aresetn,
+                                      output reg valid,
+                                      input      ready
                                      );  
   
   import uvm_pkg::*;
@@ -30,28 +21,28 @@ interface Axi4LiteMasterReadDriverBFM(input bit                      aclk,
     `uvm_info(name,$sformatf(name),UVM_LOW)
   end
 
-  //-------------------------------------------------------
-  // Task: wait_for_aresetn
-  // Waiting for the system reset to be active low
-  //-------------------------------------------------------
   task wait_for_aresetn();
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH)
-    arvalid <= 1'b0;
-    rready  <= 1'b0;
+    valid <= 1'b0;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : wait_for_aresetn
 
-task masterReadAddressChannelTask(inout axi4LiteReadTransferCharStruct masterReadCharStruct,axi4LiteReadTransferCfgStruct masterReadCfgStruct);
+  task readChannelTask(input axi4LiteReadTransferConfigStruct masterReadConfigStruct, 
+                        inout axi4LiteReadTransferPacketStruct masterReadPacketStruct
+                       );
+    `uvm_info(name,$sformatf("READ_CHANNEL_TASK_STARTED"),UVM_HIGH)
+    @(posedge aclk);
+    valid <= 1'b1;
 
-endtask : masterReadAddressChannelTask
-
-task masterReadDataChannelTask(inout axi4LiteReadTransferCharStruct masterReadCharStruct,axi4LiteReadTransferCfgStruct masterReadCfgStruct);
-
-endtask : masterReadDataChannelTask
-
-
+    do begin
+      @(posedge aclk);
+    end
+    while(ready !== 1);
+    
+    `uvm_info(name,$sformatf("READ_CHANNEL_TASK_ENDED"),UVM_HIGH)
+  endtask
 
 endinterface : Axi4LiteMasterReadDriverBFM
 

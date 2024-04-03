@@ -20,9 +20,7 @@ class Axi4LiteSlaveWriteMonitorProxy extends uvm_monitor;
   extern virtual function void build_phase(uvm_phase phase);
   extern function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-  extern virtual task axi4LiteSlaveWriteAddress();
-  extern virtual task axi4LiteSlaveWriteData();
-  extern virtual task axi4LiteSlaveWriteResponse();
+  extern virtual task sampleTask();
 
 endclass : Axi4LiteSlaveWriteMonitorProxy
 
@@ -50,32 +48,30 @@ endfunction : end_of_elaboration_phase
 
 
 task Axi4LiteSlaveWriteMonitorProxy::run_phase(uvm_phase phase);
-/*
-  axi4LiteSlaveWriteMonitorBFM.wait_for_aresetn();
 
-  fork 
-    axi4LiteSlaveWriteAddress();
-    axi4LiteSlaveWriteData();
-    axi4LiteSlaveWriteResponse();
-  join
-*/
+  axi4LiteSlaveWriteMonitorBFM.wait_for_aresetn();
+  sampleTask(); 
 endtask : run_phase 
 
-task Axi4LiteSlaveWriteMonitorProxy::axi4LiteSlaveWriteAddress();
+task Axi4LiteSlaveWriteMonitorProxy::sampleTask();
+  forever begin
+   Axi4LiteSlaveWriteTransaction slaveWriteTx;
+   axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct;
+   axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
 
+   Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
 
+   axi4LiteSlaveWriteMonitorBFM.writeChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+
+   Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);
+
+    // Clone and publish the cloned item to the subscribers
+    $cast(slaveWriteTx,reqWrite.clone());
+
+    `uvm_info(get_type_name(),$sformatf("Packet received from slave write monitor BFM clone packet is \n %s",slaveWriteTx.sprint()),UVM_HIGH)
+    axi4LiteSlaveWriteAddressAnalysisPort.write(slaveWriteTx);
+
+  end
 endtask
-
-
-task Axi4LiteSlaveWriteMonitorProxy::axi4LiteSlaveWriteData();
-
-
-endtask
-
-task Axi4LiteSlaveWriteMonitorProxy::axi4LiteSlaveWriteResponse();
-
-
-endtask
-
 
 `endif

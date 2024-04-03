@@ -1,8 +1,6 @@
 `ifndef AXI4LITEASSERTIONS_INCLUDED_
 `define AXI4LITEASSERTIONS_INCLUDED_
 
-import Axi4LiteGlobalsPkg::*;
-
 interface Axi4LiteAssertions (input aclk,
                               input aresetn
                              );  
@@ -14,31 +12,21 @@ interface Axi4LiteAssertions (input aclk,
     `uvm_info("Axi4LiteAssertions","Axi4LiteAssertions",UVM_LOW);
   end
 
-  property ifSignalsAreUnknown(logic valid, logic ready);
-    @(posedge aclk)
-     !aresetn |-> !($isunknown(valid) && $isunknown(ready));
-  endproperty : ifSignalsAreUnknown
+  property ifResetAssertedThenValidLow(logic valid);
+    @(negedge aresetn) disable iff (aresetn === 1)
+         (valid===0);
+  endproperty : ifResetAssertedThenValidLow
 
-  property validStableUntillreadyDeasserted(logic valid, logic ready);
+  property validAssertedThenRemainsHighUntillReadyAsserted(logic valid, logic ready);
     @(posedge aclk) disable iff (!aresetn)  
     $rose(valid) |-> valid until_with ready;
-  endproperty : validStableUntillreadyDeasserted
+  endproperty : validAssertedThenRemainsHighUntillReadyAsserted
 
-  property validStableCheckUpto16ClkIfreadyLow(logic valid, logic ready);
+  property validAssertedThenReadyNeedsToBeAssertedWithin16Clk(logic valid, logic ready);
     @(posedge aclk) disable iff (!aresetn)  
     $rose(valid) |-> ##[0:15] $rose(ready);
-  endproperty : validStableCheckUpto16ClkIfreadyLow
+  endproperty : validAssertedThenReadyNeedsToBeAssertedWithin16Clk
 
- /* property validAssertedCorrespondingDataCannotBeUnknown(logic valid, logic data);
-    @(posedge aclk) disable iff (!aresetn)  
-    $rose(valid) |-> !$isunknown(data);
-  endproperty : validAssertedCorrespondingDataCannotBeUnknown
-
-  property readyAssertedBeforeThevalidCorrespondingDataCanBeUnknown(logic valid, logic ready, logic data);
-    @(posedge aclk) disable iff (!aresetn)  
-    $rose(ready) |-> (ready && $isunknown(data)) throughout ( !$rose(valid) ##0 !$isunknown(data));
-  endproperty : readyAssertedBeforeThevalidCorrespondingDataCanBeUnknown
-*/
 endinterface : Axi4LiteAssertions
 
 `endif

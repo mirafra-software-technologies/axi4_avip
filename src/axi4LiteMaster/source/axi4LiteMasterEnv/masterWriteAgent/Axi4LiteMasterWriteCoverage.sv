@@ -1,7 +1,7 @@
 `ifndef AXI4LITEMASTERWRITECOVERAGE_INCLUDED_
 `define AXI4LITEMASTERWRITECOVERAGE_INCLUDED_
 
-class Axi4LiteMasterWriteCoverage extends uvm_subscriber #(Axi4LiteMasterWriteTransaction);
+class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTransaction);
   `uvm_component_utils(Axi4LiteMasterWriteCoverage)
  
   covergroup axi4LiteMasterWriteCovergroup with function sample (Axi4LiteMasterWriteTransaction packet);

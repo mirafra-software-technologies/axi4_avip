@@ -120,7 +120,6 @@ simulate:
 	vsim -vopt \
 	work.HvlTop \
 	work.HdlTop \
-	work.Axi4LiteAssertionTB \
 	-voptargs=+acc=npr \
 	-assertdebug \
 	+UVM_TESTNAME=$(test) \

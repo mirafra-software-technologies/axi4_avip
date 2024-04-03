@@ -9,6 +9,8 @@ package Axi4LiteSlaveReadSeqPkg;
   import Axi4LiteGlobalsPkg::*; 
  
   `include "Axi4LiteSlaveReadBaseSeq.sv"
+  `include "Axi4LiteSlaveReadTransferRandomReadyDelaySeq.sv"
+  `include "Axi4LiteSlaveReadTransferRandomReadyDelayGreaterThanMaxDelaySeq.sv"
 
 endpackage : Axi4LiteSlaveReadSeqPkg
 `endif

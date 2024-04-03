@@ -6,6 +6,11 @@ class Axi4LiteSlaveReadCoverage extends uvm_subscriber#(Axi4LiteSlaveReadTransac
 
   covergroup axi4LiteSlaveReadCovergroup with function sample (Axi4LiteSlaveReadTransaction packet);
     option.per_instance = 1; 
+
+    SLAVE_READ_READY_DELAY : coverpoint packet.readDelayForReady {
+                              option.comment = "delay for the ready signal in the slave read";
+                              bins READY_DELAY[]  = {[0:15]};
+                             }
   endgroup: axi4LiteSlaveReadCovergroup
 
   extern function new(string name = "Axi4LiteSlaveReadCoverage", uvm_component parent = null);

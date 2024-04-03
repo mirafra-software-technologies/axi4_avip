@@ -15,6 +15,7 @@ package Axi4LiteMasterReadPkg;
   `include "Axi4LiteMasterReadSequencer.sv"
   `include "Axi4LiteMasterReadDriverProxy.sv"
   `include "Axi4LiteMasterReadMonitorProxy.sv"
+  `include "Axi4LiteMasterReadValidGeneratedReadyNotYetGeneratedFatalMonitorProxy.sv"
   `include "Axi4LiteMasterReadCoverage.sv"
   `include "Axi4LiteMasterReadAgent.sv"
   

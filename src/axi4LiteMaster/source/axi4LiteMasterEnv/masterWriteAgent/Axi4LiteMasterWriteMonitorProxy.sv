@@ -28,9 +28,7 @@ class Axi4LiteMasterWriteMonitorProxy extends uvm_component;
   extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-  extern virtual task axi4LiteMasterWriteAddress();
-  extern virtual task axi4LiteMasterWriteData();
-  extern virtual task axi4LiteMasterWriteResponse();
+  extern virtual task sampleTask();
 
 endclass : Axi4LiteMasterWriteMonitorProxy
 
@@ -63,34 +61,30 @@ endfunction : end_of_elaboration_phase
 
 
 task Axi4LiteMasterWriteMonitorProxy::run_phase(uvm_phase phase);
-/*
   axi4LiteMasterWriteMonitorBFM.wait_for_aresetn();
-
-  fork 
-    axi4LiteMasterWriteAddress();
-    axi4LiteMasterWriteData();
-    axi4LiteMasterWriteResponse();
-  join
-*/
+  sampleTask(); 
 endtask : run_phase
 
-// Task: axi4LiteMasterWriteAddress
-task Axi4LiteMasterWriteMonitorProxy::axi4LiteMasterWriteAddress();
+task Axi4LiteMasterWriteMonitorProxy::sampleTask();
+  forever begin
+   Axi4LiteMasterWriteTransaction masterWriteTx;
+   axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
+   axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
 
+   Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
 
+   axi4LiteMasterWriteMonitorBFM.writeChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
+
+   Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
+
+   // // Clone and publish the cloned item to the subscribers
+   // $cast(masterWriteTx,reqWrite.clone());
+
+   // `uvm_info(get_type_name(),$sformatf("Packet received from master write monitor BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
+   // axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
+
+  end
 endtask
 
-// Task: axi4LiteMasterWriteData
-task Axi4LiteMasterWriteMonitorProxy::axi4LiteMasterWriteData();
-
-
-endtask
-
-
-// Task: axi4LiteMasterWriteResponse
-task Axi4LiteMasterWriteMonitorProxy::axi4LiteMasterWriteResponse();
-
-
-endtask
 `endif
 

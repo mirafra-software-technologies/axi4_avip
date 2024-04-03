@@ -1,50 +1,23 @@
 `ifndef AXI4LITEMASTERWRITEMONITORBFM_INCLUDED_
 `define AXI4LITEMASTERWRITEMONITORBFM_INCLUDED_
 
-//--------------------------------------------------------------------------------------------
-//Interface : Axi4LiteMasterWriteMonitorBFM
-//Used as the HDL monitor for axi4
-//It connects with the HVL Axi4LiteMasterWriteMonitorProxy for driving the stimulus
-//--------------------------------------------------------------------------------------------
 import Axi4LiteGlobalsPkg::*;
 
-interface Axi4LiteMasterWriteMonitorBFM(input bit aclk, input bit aresetn,
-                                        //Write Address Channel Signals
-                                        input  [ADDRESS_WIDTH-1:0]awaddr,
-                                        input  [2:0]awprot,
-                                        input  awvalid,
-                                        input  awready,
-       
-                                        //Write Data Channel Signals
-                                        input  [DATA_WIDTH-1: 0]wdata,
-                                        input  [(DATA_WIDTH/8)-1:0]wstrb,
-                                        input  wvalid,
-                                        input  wready,
-       
-                                        //Write Response Channel Signals
-                                        input  [1:0]bresp,
-                                        input  bvalid,
-                                        input  bready
-       
+interface Axi4LiteMasterWriteMonitorBFM(input bit aclk, 
+                                        input bit aresetn,
+                                        input  valid,
+                                        input  ready
                                       );  
 
   import uvm_pkg::*;
   `include "uvm_macros.svh" 
   
-  //-------------------------------------------------------
-  // Importing axi4 Global Package master package
-  //-------------------------------------------------------
- 
   import Axi4LiteMasterWritePkg::Axi4LiteMasterWriteMonitorProxy;  
-  //Variable : axi4LiteMasterWriteMonitorProxy
-  //Creating the handle for proxy monitor
  
   Axi4LiteMasterWriteMonitorProxy axi4LiteMasterWriteMonitorProxy;
+
+  int readyDelayCounter;
   
-  //-------------------------------------------------------
-  // Task: wait_for_aresetn
-  // Waiting for the system reset to be active low
-  //-------------------------------------------------------
   task wait_for_aresetn();
     @(negedge aresetn);
     `uvm_info("FROM MASTER MON BFM",$sformatf("SYSTEM RESET DETECTED"),UVM_HIGH) 
@@ -52,7 +25,35 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk, input bit aresetn,
     `uvm_info("FROM MASTER MON BFM",$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : wait_for_aresetn
 
+  task writeChannelTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct,output axi4LiteWriteTransferPacketStruct masterWritePacketStruct);
+    `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write"),UVM_HIGH)
+    do begin
+      @(posedge aclk);
+    end while(valid===0);
 
+    do begin
+      @(posedge aclk);
+    end while(ready===0);
+
+    `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite master write masterWritePacketStruct=%p ",masterWritePacketStruct),UVM_HIGH)
+  endtask
+
+  task readyTimeTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct);
+    `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write readyDelayTask"),UVM_HIGH)
+    do begin
+      @(posedge aclk);
+    end while(valid===0);
+
+    do begin
+      @(posedge aclk);
+      readyDelayCounter++;
+      if(readyDelayCounter > masterWriteConfigStruct.maxDelayForReady) begin
+        `uvm_fatal("MASTER WRITE MONITOR", "READY_DELAY_COUNTED_MAXIMUM");
+      end
+    end while(ready===0);
+
+    `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite master write readyTimeTask masterWriteConfigStruct=%p ",masterWriteConfigStruct),UVM_HIGH)
+  endtask
 endinterface : Axi4LiteMasterWriteMonitorBFM
 
 `endif
