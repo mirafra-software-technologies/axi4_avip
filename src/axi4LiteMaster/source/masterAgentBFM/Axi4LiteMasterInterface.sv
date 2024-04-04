@@ -6,8 +6,17 @@ import Axi4LiteGlobalsPkg::*;
 
 interface Axi4LiteMasterInterface(input aclk, input aresetn);
 
-  logic valid;
-  logic	ready;
+  logic awvalid;
+  logic	awready;
+  logic wvalid;
+  logic	wready;
+  logic bvalid;
+  logic	bready;
+
+  logic arvalid;
+  logic	arready;
+  logic rvalid;
+  logic	rready;
 
 endinterface: Axi4LiteMasterInterface 
 

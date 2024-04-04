@@ -17,20 +17,24 @@ endfunction : new
 function void Axi4LiteMasterReadSeqItemConverter::fromReadClass( input Axi4LiteMasterReadTransaction input_conv_h,output axi4LiteReadTransferPacketStruct output_conv_h);
 
   `uvm_info("axi4_master_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
+
+  output_conv_h.readDelayForRready = input_conv_h.readDelayForRready;
   
 endfunction : fromReadClass 
 
 function void Axi4LiteMasterReadSeqItemConverter::toReadClass( input axi4LiteReadTransferPacketStruct
   input_conv_h, output Axi4LiteMasterReadTransaction output_conv_h);
 
-  output_conv_h = new();
   `uvm_info("axi4_master_seq_item_conv_class",$sformatf("----------------------------------------------------------------------"),UVM_HIGH);
+  output_conv_h = new();
+  output_conv_h.readDelayForRready = input_conv_h.readDelayForRready;
 endfunction : toReadClass
 
 
 function void Axi4LiteMasterReadSeqItemConverter::do_print(uvm_printer printer);
   axi4LiteReadTransferPacketStruct readPacketStruct; 
   super.do_print(printer);
+  printer.print_field("readDelayForRready",readPacketStruct.readDelayForRready,$bits(readPacketStruct.readDelayForRready),UVM_HEX);
 
 endfunction : do_print
 

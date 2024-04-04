@@ -6,8 +6,10 @@ module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                    )
                                    (input  aclk,
                                     input  aresetn,
-                                    output valid,
-                                    input  ready
+                                    output arvalid,
+                                    input  arready,
+                                    input  rvalid,
+                                    output rready
                                     );
    
   import uvm_pkg::*;
@@ -19,18 +21,25 @@ module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
 
   Axi4LiteMasterReadDriverBFM axi4LiteMasterReadDriverBFM (.aclk(axi4LiteMasterReadInterface.aclk), 
                                                            .aresetn(axi4LiteMasterReadInterface.aresetn),
-                                                           .valid(axi4LiteMasterReadInterface.valid),
-                                                           .ready(axi4LiteMasterReadInterface.ready)
+                                                           .arvalid(axi4LiteMasterReadInterface.arvalid),
+                                                           .arready(axi4LiteMasterReadInterface.arready),
+                                                           .rvalid(axi4LiteMasterReadInterface.rvalid),
+                                                           .rready(axi4LiteMasterReadInterface.rready)
                                                           );
 
   Axi4LiteMasterReadMonitorBFM axi4LiteMasterReadMonitorBFM (.aclk(axi4LiteMasterReadInterface.aclk),
                                                              .aresetn(axi4LiteMasterReadInterface.aresetn),
-                                                             .valid(axi4LiteMasterReadInterface.valid),
-                                                             .ready(axi4LiteMasterReadInterface.ready)
+                                                             .arvalid(axi4LiteMasterReadInterface.arvalid),
+                                                             .arready(axi4LiteMasterReadInterface.arready),
+                                                             .rvalid(axi4LiteMasterReadInterface.rvalid),
+                                                             .rready(axi4LiteMasterReadInterface.rready)
                                                             );
 
-  assign valid = axi4LiteMasterReadInterface.valid; 
-  assign axi4LiteMasterReadInterface.ready = ready;  
+  assign arvalid = axi4LiteMasterReadInterface.arvalid; 
+  assign rready  = axi4LiteMasterReadInterface.rready; 
+
+  assign axi4LiteMasterReadInterface.arready = arready;  
+  assign axi4LiteMasterReadInterface.rvalid  = rvalid;  
 
   //-------------------------------------------------------
   // Setting the virtual handle of BMFs into config_db

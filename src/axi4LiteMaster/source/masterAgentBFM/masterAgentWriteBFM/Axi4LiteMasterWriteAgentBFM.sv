@@ -6,8 +6,12 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                     )
                                     (input  aclk,
                                      input  aresetn,
-                                     output valid,
-                                     input  ready
+                                     output awvalid,
+                                     input  awready,
+                                     output wvalid,
+                                     input  wready,
+                                     input  bvalid,
+                                     output bready
                                      );
    
   import uvm_pkg::*;
@@ -19,18 +23,31 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
 
   Axi4LiteMasterWriteDriverBFM axi4LiteMasterWriteDriverBFM (.aclk(axi4LiteMasterWriteInterface.aclk), 
                                                              .aresetn(axi4LiteMasterWriteInterface.aresetn),
-                                                             .valid(axi4LiteMasterWriteInterface.valid),
-                                                             .ready(axi4LiteMasterWriteInterface.ready)
+                                                             .awvalid(axi4LiteMasterWriteInterface.awvalid),
+                                                             .awready(axi4LiteMasterWriteInterface.awready),
+                                                             .wvalid(axi4LiteMasterWriteInterface.wvalid),
+                                                             .wready(axi4LiteMasterWriteInterface.wready),
+                                                             .bvalid(axi4LiteMasterWriteInterface.bvalid),
+                                                             .bready(axi4LiteMasterWriteInterface.bready)
                                                             );
 
   Axi4LiteMasterWriteMonitorBFM axi4LiteMasterWriteMonitorBFM (.aclk(axi4LiteMasterWriteInterface.aclk),
                                                                .aresetn(axi4LiteMasterWriteInterface.aresetn),
-                                                               .valid(axi4LiteMasterWriteInterface.valid),
-                                                               .ready(axi4LiteMasterWriteInterface.ready)
+                                                               .awvalid(axi4LiteMasterWriteInterface.awvalid),
+                                                               .awready(axi4LiteMasterWriteInterface.awready),
+                                                               .wvalid(axi4LiteMasterWriteInterface.wvalid),
+                                                               .wready(axi4LiteMasterWriteInterface.wready),
+                                                               .bvalid(axi4LiteMasterWriteInterface.bvalid),
+                                                               .bready(axi4LiteMasterWriteInterface.bready)
                                                                );
 
-  assign valid = axi4LiteMasterWriteInterface.valid;
-  assign axi4LiteMasterWriteInterface.ready = ready;   
+  assign awvalid = axi4LiteMasterWriteInterface.awvalid;
+  assign wvalid  = axi4LiteMasterWriteInterface.wvalid;
+  assign bready  = axi4LiteMasterWriteInterface.bready;
+
+  assign axi4LiteMasterWriteInterface.awready = awready;   
+  assign axi4LiteMasterWriteInterface.wready  = wready;  
+  assign axi4LiteMasterWriteInterface.bvalid  = bvalid;  
 
   //-------------------------------------------------------
   // Setting the virtual handle of BMFs into config_db
@@ -41,10 +58,14 @@ module Axi4LiteMasterWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
   end
 
   bind axi4LiteMasterWriteMonitorBFM Axi4LiteMasterWriteAssertions M_A (.aclk(aclk),
-                                                            .aresetn(aresetn),
-                                                            .valid(valid),
-                                                            .ready(ready)
-                                                           );
+                                                                        .aresetn(aresetn),
+                                                                        .awvalid(awvalid),
+                                                                        .awready(awready),
+                                                                        .wvalid(wvalid),
+                                                                        .wready(wready),
+                                                                        .bvalid(bvalid),
+                                                                        .bready(bready)
+                                                                       );
 
 
   initial begin

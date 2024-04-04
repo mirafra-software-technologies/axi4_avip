@@ -45,7 +45,7 @@ function void Axi4LiteMasterReadDriverProxy::end_of_elaboration_phase(uvm_phase 
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteMasterReadDriverProxy::run_phase(uvm_phase phase);
-  axi4LiteMasterReadDriverBFM.wait_for_aresetn();
+  axi4LiteMasterReadDriverBFM.waitForAresetn();
   readTransferTask();
 endtask : run_phase
 
@@ -58,16 +58,41 @@ task Axi4LiteMasterReadDriverProxy::readTransferTask();
     axi4LiteMasterReadSeqItemPort.get_next_item(reqRead); 
   `uvm_info(get_type_name(),$sformatf("MASTER_READ_TASK::Before Sending_Req_Read_Packet = \n%s",reqRead.sprint()),UVM_HIGH);
 
-    Axi4LiteMasterReadSeqItemConverter::fromReadClass(reqRead, masterReadPacketStruct);
     Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
 
-    axi4LiteMasterReadDriverBFM.readChannelTask(masterReadConfigStruct, masterReadPacketStruct);
+    fork
+      begin : MASTER_READ_ADDRESS_CHANNEL
+        Axi4LiteMasterReadTransaction masterReadAddressTx;
+        axi4LiteReadTransferPacketStruct masterReadPacketStruct;
 
-    Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadTx);
+        `uvm_info(get_type_name(),$sformatf("MASTER_READ_ADDRESS_THREAD::Checking read address struct packet = %p",
+                                               masterReadPacketStruct),UVM_MEDIUM); 
+        Axi4LiteMasterReadSeqItemConverter::fromReadClass(reqRead, masterReadPacketStruct);
 
+        axi4LiteMasterReadDriverBFM.readAddressChannelTask(masterReadConfigStruct, masterReadPacketStruct);
+
+        Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadAddressTx);
+        `uvm_info(get_type_name(),$sformatf("MASTER_READ_ADDRESS_THREAD::Received read address packet From driverBFM = %p",
+                                               masterReadPacketStruct),UVM_MEDIUM); 
+      end
+
+      begin : MASTER_READ_DATA_CHANNEL
+        Axi4LiteMasterReadTransaction masterReadDataTx;
+        axi4LiteReadTransferPacketStruct masterReadPacketStruct;
+
+        `uvm_info(get_type_name(),$sformatf("MASTER_READ_DATA_THREAD::Checking read data struct packet = %p",
+                                               masterReadPacketStruct),UVM_MEDIUM); 
+        Axi4LiteMasterReadSeqItemConverter::fromReadClass(reqRead, masterReadPacketStruct);
+
+        axi4LiteMasterReadDriverBFM.readDataChannelTask(masterReadConfigStruct, masterReadPacketStruct);
+
+        Axi4LiteMasterReadSeqItemConverter::toReadClass(masterReadPacketStruct,masterReadDataTx);
+        `uvm_info(get_type_name(),$sformatf("MASTER_READ_DATA_THREAD::Received read data packet From driverBFM = %p",
+                                               masterReadPacketStruct),UVM_MEDIUM); 
+      end
+    join 
     axi4LiteMasterReadSeqItemPort.item_done();
-   end
- 
+  end
 endtask : readTransferTask
 
 `endif

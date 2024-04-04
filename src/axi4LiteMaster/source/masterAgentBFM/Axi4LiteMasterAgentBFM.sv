@@ -7,8 +7,17 @@ module Axi4LiteMasterAgentBFM #(parameter int ADDR_WIDTH = 32,
                                 )
                                 (input   aclk,
                                  input   aresetn,
-                                 output  valid,
-                                 input   ready
+                                 output  awvalid,
+                                 input   awready,
+                                 output  wvalid,
+                                 input   wready,
+                                 input   bvalid,
+                                 output  bready,
+
+                                 output  arvalid,
+                                 input   arready,
+                                 input   rvalid,
+                                 output  rready
                                  );
    
   import uvm_pkg::*;
@@ -19,18 +28,37 @@ module Axi4LiteMasterAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                  );
 
   Axi4LiteMasterWriteAgentBFM axi4LiteMasterWriteAgentBFM (.aclk(axi4LiteMasterInterface.aclk), 
-                                                         .aresetn(axi4LiteMasterInterface.aresetn),
-                                                         .valid(axi4LiteMasterInterface.valid),
-                                                         .ready(axi4LiteMasterInterface.ready)
-                                                        );
+                                                           .aresetn(axi4LiteMasterInterface.aresetn),
+                                                           .awvalid(axi4LiteMasterInterface.awvalid),
+                                                           .awready(axi4LiteMasterInterface.awready),
+                                                           .wvalid(axi4LiteMasterInterface.wvalid),
+                                                           .wready(axi4LiteMasterInterface.wready),
+                                                           .bvalid(axi4LiteMasterInterface.bvalid),
+                                                           .bready(axi4LiteMasterInterface.bready)
+                                                          );
 
   Axi4LiteMasterReadAgentBFM axi4LiteMasterReadAgentBFM (.aclk(axi4LiteMasterInterface.aclk), 
-                                                       .aresetn(axi4LiteMasterInterface.aresetn),
-                                                       .valid(axi4LiteMasterInterface.valid),
-                                                       .ready(axi4LiteMasterInterface.ready)
-                                                      );
-  assign valid = axi4LiteMasterInterface.valid;
-  assign axi4LiteMasterInterface.ready = ready;   
+                                                         .aresetn(axi4LiteMasterInterface.aresetn),
+                                                         .awvalid(axi4LiteMasterInterface.awvalid),
+                                                         .awready(axi4LiteMasterInterface.awready),
+                                                         .wvalid(axi4LiteMasterInterface.wvalid),
+                                                         .wready(axi4LiteMasterInterface.wready),
+                                                         .bvalid(axi4LiteMasterInterface.bvalid),
+                                                         .bready(axi4LiteMasterInterface.bready)
+                                                        );
+
+  assign awvalid = axi4LiteMasterInterface.awvalid;
+  assign wvalid  = axi4LiteMasterInterface.wvalid;
+  assign bready  = axi4LiteMasterInterface.bready;
+
+  assign arvalid = axi4LiteMasterInterface.arvalid; 
+  assign rready  = axi4LiteMasterInterface.rready; 
+
+  assign axi4LiteMasterInterface.awready = awready;   
+  assign axi4LiteMasterInterface.wready  = wready;  
+  assign axi4LiteMasterInterface.bvalid  = bvalid;  
+  assign axi4LiteMasterInterface.arready = arready;  
+  assign axi4LiteMasterInterface.rvalid  = rvalid;  
 
   initial begin
     `uvm_info("Axi4LiteMasterAgent",$sformatf("AXI4LITEMASTERAGENTBFM"),UVM_LOW);

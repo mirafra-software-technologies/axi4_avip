@@ -5,8 +5,12 @@ import Axi4LiteGlobalsPkg::*;
 
 interface Axi4LiteMasterWriteInterface(input aclk, input aresetn);
 
-  logic  valid;
-  logic	 ready;
+  logic  awvalid;
+  logic	 awready;
+  logic  wvalid;
+  logic	 wready;
+  logic  bvalid;
+  logic	 bready;
 
 endinterface: Axi4LiteMasterWriteInterface 
 

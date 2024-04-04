@@ -28,7 +28,9 @@ class Axi4LiteMasterWriteMonitorProxy extends uvm_component;
   extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual task run_phase(uvm_phase phase);
-  extern virtual task sampleTask();
+  extern virtual task writeAddressSampleTask();
+  extern virtual task writeDataSampleTask();
+  extern virtual task writeResponseSampleTask();
 
 endclass : Axi4LiteMasterWriteMonitorProxy
 
@@ -61,11 +63,15 @@ endfunction : end_of_elaboration_phase
 
 
 task Axi4LiteMasterWriteMonitorProxy::run_phase(uvm_phase phase);
-  axi4LiteMasterWriteMonitorBFM.wait_for_aresetn();
-  sampleTask(); 
+  axi4LiteMasterWriteMonitorBFM.waitForAresetn();
+  fork
+    writeAddressSampleTask();
+    writeDataSampleTask();
+    writeResponseSampleTask();
+  join
 endtask : run_phase
 
-task Axi4LiteMasterWriteMonitorProxy::sampleTask();
+task Axi4LiteMasterWriteMonitorProxy::writeAddressSampleTask();
   forever begin
    Axi4LiteMasterWriteTransaction masterWriteTx;
    axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
@@ -73,7 +79,47 @@ task Axi4LiteMasterWriteMonitorProxy::sampleTask();
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
 
-   axi4LiteMasterWriteMonitorBFM.writeChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
+   axi4LiteMasterWriteMonitorBFM.writeAddressChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
+
+   Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
+
+   // // Clone and publish the cloned item to the subscribers
+   // $cast(masterWriteTx,reqWrite.clone());
+
+   // `uvm_info(get_type_name(),$sformatf("Packet received from master write monitor BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
+   // axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
+  end
+endtask : writeAddressSampleTask
+
+task Axi4LiteMasterWriteMonitorProxy::writeDataSampleTask();
+  forever begin
+   Axi4LiteMasterWriteTransaction masterWriteTx;
+   axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
+   axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+
+   Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
+
+   axi4LiteMasterWriteMonitorBFM.writeDataChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
+
+   Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
+
+   // // Clone and publish the cloned item to the subscribers
+   // $cast(masterWriteTx,reqWrite.clone());
+
+   // `uvm_info(get_type_name(),$sformatf("Packet received from master write monitor BFM clone packet is \n %s",masterWriteTx.sprint()),UVM_HIGH)
+   // axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
+  end
+endtask : writeDataSampleTask
+
+task Axi4LiteMasterWriteMonitorProxy::writeResponseSampleTask();
+  forever begin
+   Axi4LiteMasterWriteTransaction masterWriteTx;
+   axi4LiteWriteTransferConfigStruct masterWriteConfigStruct;
+   axi4LiteWriteTransferPacketStruct masterWritePacketStruct;
+
+   Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
+
+   axi4LiteMasterWriteMonitorBFM.writeResponseChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
 
    Axi4LiteMasterWriteSeqItemConverter::toWriteClass(masterWritePacketStruct,reqWrite);
 
@@ -84,7 +130,6 @@ task Axi4LiteMasterWriteMonitorProxy::sampleTask();
    // axi4LiteMasterWriteAddressAnalysisPort.write(masterWriteTx);
 
   end
-endtask
-
+endtask : writeResponseSampleTask
 `endif
 

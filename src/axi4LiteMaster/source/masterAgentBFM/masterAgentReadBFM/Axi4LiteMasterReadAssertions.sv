@@ -5,8 +5,10 @@ import Axi4LiteGlobalsPkg::*;
 
 interface Axi4LiteMasterReadAssertions (input aclk,
                                         input aresetn,
-                                        input valid,
-                                        input	ready
+                                        input arvalid,
+                                        input	arready,
+                                        input rvalid,
+                                        input rready
                                        );  
 
   import uvm_pkg::*;
@@ -20,19 +22,19 @@ interface Axi4LiteMasterReadAssertions (input aclk,
     `uvm_info("Axi4LiteMasterReadAssertions","Axi4LiteMasterReadAssertions",UVM_LOW);
   end
 
-//  AXI4LITE_MASTERREAD_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW: assert property (axi4LiteAssertions.ifResetAssertedThenValidLow(valid))
+//  AXI4LITE_MASTERREAD_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW: assert property (axi4LiteAssertions.ifResetAssertedThenValidLow(arvalid))
 //     $info("AXI4LITE_MASTERREAD_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW : ASSERTION PASS");
 //    else  
 //     $error("AXI4LITE_MASTERREAD_SIGNALS_CHECK_RESETASSERTED_VALIDISLOW : ASSERTION FAIL");
 
 //FIXME
 //Added @(posedge aclk) Need to Remove and change to other logic
-  AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK: assert property (@(posedge aclk) axi4LiteAssertions.validAssertedThenReadyNeedsToBeAssertedWithin16Clk(valid,ready))
+  AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK: assert property (@(posedge aclk) axi4LiteAssertions.validAssertedThenReadyNeedsToBeAssertedWithin16Clk(arvalid,arready))
      $info("AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK : ASSERTION PASS");
     else  
      $error("AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDASSERTED_READYNEEDSTOBEASSERTED_WITHIN16CLK : ASSERTION FAIL");
 
-  AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED: assert property (@(posedge aclk) axi4LiteAssertions.validAssertedThenRemainsHighUntillReadyAsserted(valid,ready))
+  AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED: assert property (@(posedge aclk) axi4LiteAssertions.validAssertedThenRemainsHighUntillReadyAsserted(arvalid,arready))
      $info("AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED : ASSERTION PASS");
     else  
      $error("AXI4LITE_MASTERREAD_SIGNALS_CHECK_VALIDHIGH_UNITILL_READYASSERTED : ASSERTION FAIL");
