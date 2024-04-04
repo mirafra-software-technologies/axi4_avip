@@ -75,11 +75,14 @@ package Axi4LiteGlobalsPkg;
 
   
   typedef struct {
+    bit [DELAY_WIDTH-1:0]   writeDelayForAwready;
+    bit [DELAY_WIDTH-1:0]   writeDelayForWready;
     bit [DELAY_WIDTH-1:0]   writeDelayForReady;
     bit [DELAY_WIDTH-1:0]   writeDelayForBready;
   } axi4LiteWriteTransferPacketStruct; 
 
   typedef struct {
+    bit [DELAY_WIDTH-1:0]   readDelayForArready;
     bit [DELAY_WIDTH-1:0]   readDelayForReady;
     bit [DELAY_WIDTH-1:0]   readDelayForRready;
   } axi4LiteReadTransferPacketStruct;

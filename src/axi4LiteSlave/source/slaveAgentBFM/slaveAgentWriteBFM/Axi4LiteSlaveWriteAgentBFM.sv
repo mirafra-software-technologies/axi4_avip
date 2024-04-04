@@ -7,30 +7,47 @@ module Axi4LiteSlaveWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
                                    )
                                    (input  aclk,
                                     input  aresetn,
-                                    input  valid,
-                                    output ready
-                                    );
+                                    input  awvalid,
+                                    output awready,
+                                    input  wvalid,
+                                    output wready,
+                                    output bvalid,
+                                    input  bready
+                                   );
+
   import uvm_pkg::*;
   `include "uvm_macros.svh"
 
   Axi4LiteSlaveWriteInterface axi4LiteSlaveWriteInterface(.aclk(aclk), 
                                                           .aresetn(aresetn)
                                                          );
-  
-  Axi4LiteSlaveWriteDriverBFM axi4LiteSlaveWriteDriverBFM (.aclk(axi4LiteSlaveWriteInterface.aclk), 
+
+  Axi4LiteSlaveWriteDriverBFM axi4LiteSlaveWriteDriverBFM (.aclk(axi4LiteSlaveWriteInterface.aclk),
                                                            .aresetn(axi4LiteSlaveWriteInterface.aresetn),
-                                                           .valid(axi4LiteSlaveWriteInterface.valid),
-                                                           .ready(axi4LiteSlaveWriteInterface.ready)
+                                                           .awvalid(axi4LiteSlaveWriteInterface.awvalid),
+                                                           .awready(axi4LiteSlaveWriteInterface.awready),
+                                                           .wvalid(axi4LiteSlaveWriteInterface.wvalid),
+                                                           .wready(axi4LiteSlaveWriteInterface.wready),
+                                                           .bvalid(axi4LiteSlaveWriteInterface.bvalid),
+                                                           .bready(axi4LiteSlaveWriteInterface.bready)
                                                           );
 
   Axi4LiteSlaveWriteMonitorBFM axi4LiteSlaveWriteMonitorBFM (.aclk(axi4LiteSlaveWriteInterface.aclk),
                                                              .aresetn(axi4LiteSlaveWriteInterface.aresetn),
-                                                             .valid(axi4LiteSlaveWriteInterface.valid),
-                                                             .ready(axi4LiteSlaveWriteInterface.ready)
+                                                             .awvalid(axi4LiteSlaveWriteInterface.awvalid),
+                                                             .awready(axi4LiteSlaveWriteInterface.awready),
+                                                             .wvalid(axi4LiteSlaveWriteInterface.wvalid),
+                                                             .wready(axi4LiteSlaveWriteInterface.wready),
+                                                             .bvalid(axi4LiteSlaveWriteInterface.bvalid),
+                                                             .bready(axi4LiteSlaveWriteInterface.bready)
                                                             );
 
-  assign axi4LiteSlaveWriteInterface.valid = valid;
-  assign ready = axi4LiteSlaveWriteInterface.ready;  
+
+  assign axi4LiteSlaveWriteInterface.awvalid = awvalid;
+  assign axi4LiteSlaveWriteInterface.wvalid = wvalid;
+  assign awready = axi4LiteSlaveWriteInterface.awready;  
+  assign wready = axi4LiteSlaveWriteInterface.wready;  
+  assign bvalid = axi4LiteSlaveWriteInterface.bvalid;  
 
   initial begin
     uvm_config_db#(virtual Axi4LiteSlaveWriteDriverBFM)::set(null,"*", "Axi4LiteSlaveWriteDriverBFM", axi4LiteSlaveWriteDriverBFM); 

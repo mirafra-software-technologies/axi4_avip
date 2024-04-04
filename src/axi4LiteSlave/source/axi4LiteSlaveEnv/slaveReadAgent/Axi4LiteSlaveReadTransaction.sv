@@ -4,9 +4,9 @@
 class Axi4LiteSlaveReadTransaction extends uvm_sequence_item;
   `uvm_object_utils(Axi4LiteSlaveReadTransaction)
   
-  rand bit [DELAY_WIDTH-1:0] readDelayForReady;
+  rand bit [DELAY_WIDTH-1:0] readDelayForArready;
 
-  constraint uniqueValueForReadDelayForReady_c1 {unique {readDelayForReady};}
+  constraint uniqueValueForReadDelayForReady_c1 {unique {readDelayForArready};}
 
   extern function new(string name = "Axi4LiteSlaveReadTransaction");
   extern function void do_copy(uvm_object rhs);
@@ -27,7 +27,7 @@ function void Axi4LiteSlaveReadTransaction::do_copy (uvm_object rhs);
   end
 
   super.do_copy(rhs);
-  readDelayForReady = axi4LiteSlaveReadTxCopyObj.readDelayForReady; 
+  readDelayForArready = axi4LiteSlaveReadTxCopyObj.readDelayForArready; 
 endfunction : do_copy
 
 function bit Axi4LiteSlaveReadTransaction::do_compare (uvm_object rhs, uvm_comparer comparer);
@@ -39,11 +39,11 @@ function bit Axi4LiteSlaveReadTransaction::do_compare (uvm_object rhs, uvm_compa
   end
 
   return super.do_compare(axi4LiteSlaveReadTxCompareObj, comparer) &&
-  readDelayForReady == axi4LiteSlaveReadTxCompareObj.readDelayForReady;
+  readDelayForArready == axi4LiteSlaveReadTxCompareObj.readDelayForArready;
 endfunction : do_compare
 
 function void Axi4LiteSlaveReadTransaction::do_print(uvm_printer printer);
-  printer.print_field($sformatf("readDelayForReady"),this.readDelayForReady,$bits(readDelayForReady),UVM_HEX);
+  printer.print_field($sformatf("readDelayForArready"),this.readDelayForArready,$bits(readDelayForArready),UVM_HEX);
 endfunction : do_print
 
 `endif

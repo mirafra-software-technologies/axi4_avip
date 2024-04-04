@@ -6,12 +6,12 @@ class Axi4LiteSlaveWriteDriverProxy extends uvm_driver#(Axi4LiteSlaveWriteTransa
 
   uvm_seq_item_pull_port #(REQ, RSP) axi4LiteSlaveWriteSeqItemPort;
   uvm_analysis_port #(RSP) axi4LiteSlaveWriteRspPort;
-  
+
   REQ reqWrite;
   RSP rspWrite;
 
   Axi4LiteSlaveWriteAgentConfig axi4LiteSlaveWriteAgentConfig;
-  Axi4LiteSlaveWriteSeqItemConverter axi4LiteSlaveWriteSeqItemConverter; 
+  Axi4LiteSlaveWriteSeqItemConverter axi4LiteSlaveWriteSeqItemConverter;
 
   virtual Axi4LiteSlaveWriteDriverBFM axi4LiteSlaveWriteDriverBFM;
 
@@ -52,29 +52,56 @@ function void Axi4LiteSlaveWriteDriverProxy::end_of_elaboration_phase(uvm_phase 
 endfunction  : end_of_elaboration_phase
 
 task Axi4LiteSlaveWriteDriverProxy::run_phase(uvm_phase phase);
- axi4LiteSlaveWriteDriverBFM.wait_for_system_reset();
+ axi4LiteSlaveWriteDriverBFM.waitForAresetn();
  writeTransferTask();
-endtask : run_phase 
+endtask : run_phase
 
 task Axi4LiteSlaveWriteDriverProxy::writeTransferTask();
  forever begin
-    Axi4LiteSlaveWriteTransaction slaveWriteTx;
+    Axi4LiteSlaveWriteTransaction slaveWriteAddressTx;
     axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct;
     axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
 
     axi4LiteSlaveWriteSeqItemPort.get_next_item(reqWrite);
-  `uvm_info(get_type_name(),$sformatf("SLAVE_WRITE_TASK::Before Sending_Req_Write_Packet = \n%s",reqWrite.sprint()),UVM_HIGH);
 
      Axi4LiteSlaveWriteSeqItemConverter::fromWriteClass(reqWrite, slaveWritePacketStruct);
-     Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
+    fork 
+     begin : SLAVE_WRITE_ADDRESS_CHANNEL
+        Axi4LiteSlaveWriteTransaction slaveWriteAddressTx;
+        axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct;
+        axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
 
-     axi4LiteSlaveWriteDriverBFM.writeChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+       `uvm_info("writeTransferTask",$sformatf("SLAVE_WRITE_ADDRESS_CHANNEL_TASK::Before Sending_Req_Write_Packet = \n%s",reqWrite.sprint()),UVM_HIGH);
+        Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
+        axi4LiteSlaveWriteDriverBFM.writeAddressChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+        Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteAddressTx);
+     end
 
-     Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteTx);
+     begin : SLAVE_WRITE_DATA_CHANNEL
+       Axi4LiteSlaveWriteTransaction slaveWriteDataTx;
+       axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct;
+       axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
+      
+       `uvm_info("writeTransferTask",$sformatf("SLAVE_WRITE_DATA_CHANNEL_TASK::Before Sending_Req_Write_Packet = \n%s",reqWrite.sprint()),UVM_HIGH);
+       Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
+       axi4LiteSlaveWriteDriverBFM.writeDataChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+       Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteDataTx);
+     end
 
-     axi4LiteSlaveWriteSeqItemPort.item_done();
-   end
- 
+     begin : SLAVE_WRITE_RESPONSE_CHANNEL
+       Axi4LiteSlaveWriteTransaction slaveWriteResponseTx;
+       axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct;
+       axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
+       `uvm_info("writeTransferTask",$sformatf("SLAVE_WRITE_RESPONSE_CHANNEL_TASK::Before Sending_Req_Write_Packet = \n%s",reqWrite.sprint()),UVM_HIGH);
+       Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
+       axi4LiteSlaveWriteDriverBFM.writeResponseChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+       Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,slaveWriteResponseTx);
+     end
+   join
+
+   axi4LiteSlaveWriteSeqItemPort.item_done();
+ end
 endtask : writeTransferTask
 
 `endif
+                             

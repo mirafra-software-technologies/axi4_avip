@@ -4,33 +4,43 @@
 module Axi4LiteSlaveReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                    parameter int DATA_WIDTH = 32
                                    )
-                                   (input  aclk,
-                                    input  aresetn,
-                                    input  valid,
-                                    output ready
-                                    );
-   
-  import uvm_pkg::*;
+                                  (input  aclk,
+                                   input  aresetn,
+                                   input  arvalid,
+                                   output arready,
+                                   output rvalid,
+                                   input  rready
+                                  );
+
+                                 
+   import uvm_pkg::*;
   `include "uvm_macros.svh"
 
   Axi4LiteSlaveReadInterface axi4LiteSlaveReadInterface(.aclk(aclk), 
                                                         .aresetn(aresetn)
-                                                       );
-
-  Axi4LiteSlaveReadDriverBFM axi4LiteSlaveReadDriverBFM (.aclk(axi4LiteSlaveReadInterface.aclk), 
-                                                         .aresetn(axi4LiteSlaveReadInterface.aresetn),
-                                                         .valid(axi4LiteSlaveReadInterface.valid),
-                                                         .ready(axi4LiteSlaveReadInterface.ready)
                                                         );
 
-  Axi4LiteSlaveReadMonitorBFM axi4LiteSlaveReadMonitorBFM (.aclk(axi4LiteSlaveReadInterface.aclk),
+  Axi4LiteSlaveReadDriverBFM axi4LiteSlaveReadDriverBFM (.aclk(axi4LiteSlaveReadInterface.aclk),
+                                                         .aresetn(axi4LiteSlaveReadInterface.aresetn),
+                                                         .arvalid(axi4LiteSlaveReadInterface.arvalid),
+                                                         .arready(axi4LiteSlaveReadInterface.arready),
+                                                         .rvalid(axi4LiteSlaveReadInterface.rvalid),
+                                                         .rready(axi4LiteSlaveReadInterface.rready)
+                                                         );
+
+ Axi4LiteSlaveReadMonitorBFM axi4LiteSlaveReadMonitorBFM (.aclk(axi4LiteSlaveReadInterface.aclk),
                                                            .aresetn(axi4LiteSlaveReadInterface.aresetn),
-                                                           .valid(axi4LiteSlaveReadInterface.valid),
-                                                           .ready(axi4LiteSlaveReadInterface.ready)
+                                                           .arvalid(axi4LiteSlaveReadInterface.arvalid),
+                                                           .arready(axi4LiteSlaveReadInterface.arready),
+                                                           .rvalid(axi4LiteSlaveReadInterface.rvalid),
+                                                           .rready(axi4LiteSlaveReadInterface.rready)
                                                           );
 
-  assign axi4LiteSlaveReadInterface.valid = valid; 
-  assign ready = axi4LiteSlaveReadInterface.ready; 
+  assign axi4LiteSlaveReadInterface.arvalid = arvalid;
+  assign axi4LiteSlaveReadInterface.rready  = rready;
+  assign arready = axi4LiteSlaveReadInterface.arready;
+  assign rvalid  = axi4LiteSlaveReadInterface.rvalid;
+
 
 
   initial begin

@@ -4,7 +4,8 @@
 class Axi4LiteSlaveWriteTransaction extends uvm_sequence_item;
   `uvm_object_utils(Axi4LiteSlaveWriteTransaction)
   
-  rand bit [DELAY_WIDTH-1:0] writeDelayForReady;
+  rand bit [DELAY_WIDTH-1:0] writeDelayForAwready;
+  rand bit [DELAY_WIDTH-1:0] writeDelayForWready;
 
   extern function new(string name = "Axi4LiteSlaveWriteTransaction");
   extern function void do_copy(uvm_object rhs);
@@ -24,7 +25,8 @@ function void Axi4LiteSlaveWriteTransaction::do_copy (uvm_object rhs);
     `uvm_fatal("do_copy","cast of the rhs object failed")
   end
   super.do_copy(rhs);
-  writeDelayForReady = axi4LiteSlaveWriteTxCopyObj.writeDelayForReady; 
+  writeDelayForAwready = axi4LiteSlaveWriteTxCopyObj.writeDelayForAwready; 
+  writeDelayForWready = axi4LiteSlaveWriteTxCopyObj.writeDelayForWready; 
 endfunction : do_copy
 
 function bit Axi4LiteSlaveWriteTransaction::do_compare (uvm_object rhs, uvm_comparer comparer);
@@ -36,12 +38,14 @@ function bit Axi4LiteSlaveWriteTransaction::do_compare (uvm_object rhs, uvm_comp
   end
 
   return super.do_compare(axi4LiteSlaveWriteTxCompareObj, comparer) &&
-  writeDelayForReady == axi4LiteSlaveWriteTxCompareObj.writeDelayForReady;
+  writeDelayForAwready == axi4LiteSlaveWriteTxCompareObj.writeDelayForAwready &&
+  writeDelayForWready == axi4LiteSlaveWriteTxCompareObj.writeDelayForWready;
 
 endfunction : do_compare
 
 function void Axi4LiteSlaveWriteTransaction::do_print(uvm_printer printer);
-  printer.print_field($sformatf("writeDelayForReady"),this.writeDelayForReady,$bits(writeDelayForReady),UVM_HEX);
+  printer.print_field($sformatf("writeDelayForAwready"),this.writeDelayForAwready,$bits(writeDelayForAwready),UVM_HEX);
+  printer.print_field($sformatf("writeDelayForWready"),this.writeDelayForWready,$bits(writeDelayForWready),UVM_HEX);
 endfunction : do_print
 
 `endif

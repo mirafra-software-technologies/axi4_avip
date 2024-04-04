@@ -4,9 +4,13 @@
 import Axi4LiteGlobalsPkg::*;
 
 interface Axi4LiteSlaveReadInterface(input aclk, input aresetn);
+ //ReadAddressChannel
+  logic arvalid;
+  logic arready;
 
-  logic valid;
- 	logic	ready;
+  //ReadDataChannel
+  logic rvalid;
+  logic rready;
 
 endinterface: Axi4LiteSlaveReadInterface 
 
