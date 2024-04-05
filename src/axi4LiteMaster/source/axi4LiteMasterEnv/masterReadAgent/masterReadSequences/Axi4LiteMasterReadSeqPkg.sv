@@ -10,6 +10,7 @@ package Axi4LiteMasterReadSeqPkg;
  
   `include "Axi4LiteMasterReadBaseSeq.sv"
   `include "Axi4LiteMasterReadTransferValidGenerateSeq.sv"
+  `include "Axi4LiteMasterReadTransferValidAndRadyGenerateSeq.sv"
 
 endpackage : Axi4LiteMasterReadSeqPkg
 `endif

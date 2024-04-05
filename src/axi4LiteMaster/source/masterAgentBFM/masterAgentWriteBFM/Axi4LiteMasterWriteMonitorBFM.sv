@@ -63,8 +63,8 @@ interface Axi4LiteMasterWriteMonitorBFM(input bit aclk,
   endtask : writeDataChannelSampleTask
 
   task writeResponseChannelSampleTask(input axi4LiteWriteTransferConfigStruct masterWriteConfigStruct,
-                                     output axi4LiteWriteTransferPacketStruct masterWritePacketStruct
-                                    );
+                                      output axi4LiteWriteTransferPacketStruct masterWritePacketStruct
+                                     );
     `uvm_info("FROM MASTER WRITE MONITOR BFM",$sformatf("from axi4Lite master write response sample task"),UVM_HIGH)
     do begin
       @(posedge aclk);

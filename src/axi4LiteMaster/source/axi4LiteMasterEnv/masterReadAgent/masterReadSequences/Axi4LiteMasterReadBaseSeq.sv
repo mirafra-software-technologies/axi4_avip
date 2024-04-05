@@ -1,31 +1,25 @@
 `ifndef AXI4LITEMASTERREADBASESEQ_INCLUDED_
 `define AXI4LITEMASTERREADBASESEQ_INCLUDED_
 
-//--------------------------------------------------------------------------------------------
-// Class: Axi4LiteMasterReadBaseSeq 
-// creating Axi4LiteMasterReadBaseSeq class extends from uvm_sequence
-//--------------------------------------------------------------------------------------------
 class Axi4LiteMasterReadBaseSeq extends uvm_sequence #(Axi4LiteMasterReadTransaction);
-
-  //factory registration
   `uvm_object_utils(Axi4LiteMasterReadBaseSeq)
   
-  //-------------------------------------------------------
-  // Externally defined Function
-  //-------------------------------------------------------
+  `uvm_declare_p_sequencer(Axi4LiteMasterReadSequencer)
+
   extern function new(string name = "Axi4LiteMasterReadBaseSeq");
+  extern task body();
 
 endclass : Axi4LiteMasterReadBaseSeq
 
-//-----------------------------------------------------------------------------
-// Constructor: new
-// Initializes the axi4_master_sequence class object
-//
-// Parameters:
-//  name - instance name of the config_template
-//-----------------------------------------------------------------------------
 function Axi4LiteMasterReadBaseSeq::new(string name = "Axi4LiteMasterReadBaseSeq");
   super.new(name);
 endfunction : new
+
+task Axi4LiteMasterReadBaseSeq::body();
+  //dynamic casting of p_sequencer and m_sequencer
+  if(!$cast(p_sequencer,m_sequencer))begin
+    `uvm_error(get_full_name(),"Virtual sequencer pointer cast failed")
+  end
+endtask : body
 
 `endif

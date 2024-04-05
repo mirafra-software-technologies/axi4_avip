@@ -78,7 +78,7 @@ function void Axi4LiteBaseTest::setupAxi4LiteMasterWriteAgentConfig();
         $sformatf("axi4LiteMasterWriteAgentConfig[%0d]", i));
     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].hasCoverage = 1;
-    axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForReady = MAX_DELAY_VALUE+2;
+    axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterWriteAgentConfig[i].maxDelayForReady = MAX_DELAY_VALUE;
 
     uvm_config_db#(Axi4LiteMasterWriteAgentConfig)::set(
         this, "*", $sformatf("Axi4LiteMasterWriteAgentConfig[%0d]", i),
@@ -99,7 +99,7 @@ function void Axi4LiteBaseTest::setupAxi4LiteMasterReadAgentConfig();
         $sformatf("axi4LiteMasterReadAgentConfig[%0d]", i));
     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].isActive = uvm_active_passive_enum'(UVM_ACTIVE);
     axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].hasCoverage = 1;
-    axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForReady = MAX_DELAY_VALUE+2;
+    axi4LiteEnvConfig.axi4LiteMasterEnvConfig.axi4LiteMasterReadAgentConfig[i].maxDelayForReady = MAX_DELAY_VALUE;
 
     uvm_config_db#(Axi4LiteMasterReadAgentConfig)::set(
         this, "*", $sformatf("Axi4LiteMasterReadAgentConfig[%0d]", i),

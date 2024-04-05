@@ -4,8 +4,8 @@
 class Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq extends Axi4LiteVirtualBaseSeq;
   `uvm_object_utils(Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq)
  
-   Axi4LiteMasterWriteTransferValidGenerateSeq axi4LiteMasterWriteTransferValidGenerateSeq;
-   Axi4LiteMasterReadTransferValidGenerateSeq axi4LiteMasterReadTransferValidGenerateSeq;
+   Axi4LiteMasterWriteTransferValidAndRadyGenerateSeq axi4LiteMasterWriteTransferValidAndRadyGenerateSeq;
+   Axi4LiteMasterReadTransferValidAndRadyGenerateSeq axi4LiteMasterReadTransferValidAndRadyGenerateSeq;
    Axi4LiteSlaveWriteTransferRandomReadyDelaySeq axi4LiteSlaveWriteTransferRandomReadyDelaySeq;
    Axi4LiteSlaveReadTransferRandomReadyDelaySeq axi4LiteSlaveReadTransferRandomReadyDelaySeq;
  
@@ -18,8 +18,8 @@ function Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq::new(string name =
 endfunction : new
  
 task Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq::body();
-  axi4LiteMasterWriteTransferValidGenerateSeq = Axi4LiteMasterWriteTransferValidGenerateSeq::type_id::create("axi4LiteMasterWriteTransferValidGenerateSeq");
-  axi4LiteMasterReadTransferValidGenerateSeq = Axi4LiteMasterReadTransferValidGenerateSeq::type_id::create("axi4LiteMasterReadTransferValidGenerateSeq");
+  axi4LiteMasterWriteTransferValidAndRadyGenerateSeq = Axi4LiteMasterWriteTransferValidAndRadyGenerateSeq::type_id::create("axi4LiteMasterWriteTransferValidAndRadyGenerateSeq");
+  axi4LiteMasterReadTransferValidAndRadyGenerateSeq = Axi4LiteMasterReadTransferValidAndRadyGenerateSeq::type_id::create("axi4LiteMasterReadTransferValidAndRadyGenerateSeq");
   axi4LiteSlaveWriteTransferRandomReadyDelaySeq = Axi4LiteSlaveWriteTransferRandomReadyDelaySeq::type_id::create("axi4LiteSlaveWriteTransferRandomReadyDelaySeq");
   axi4LiteSlaveReadTransferRandomReadyDelaySeq = Axi4LiteSlaveReadTransferRandomReadyDelaySeq::type_id::create("axi4LiteSlaveReadTransferRandomReadyDelaySeq");
  
@@ -41,13 +41,13 @@ task Axi4LiteVirtualValidAndReadyWithProgrammableDelaySeq::body();
   fork
     begin: MASTER_WRITE
       repeat(1) begin
-        axi4LiteMasterWriteTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
+        axi4LiteMasterWriteTransferValidAndRadyGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterWriteSequencer);
       end
     end
 
     begin: MASTER_READ
       repeat(1) begin
-        axi4LiteMasterReadTransferValidGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
+        axi4LiteMasterReadTransferValidAndRadyGenerateSeq.start(p_sequencer.axi4LiteMasterVirtualSequencer.axi4LiteMasterReadSequencer);
       end
     end
   join

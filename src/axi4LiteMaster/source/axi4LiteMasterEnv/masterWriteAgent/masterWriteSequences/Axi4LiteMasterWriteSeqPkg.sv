@@ -10,6 +10,7 @@ package Axi4LiteMasterWriteSeqPkg;
  
   `include "Axi4LiteMasterWriteBaseSeq.sv"
   `include "Axi4LiteMasterWriteTransferValidGenerateSeq.sv"
+  `include "Axi4LiteMasterWriteTransferValidAndRadyGenerateSeq.sv"
 
 endpackage : Axi4LiteMasterWriteSeqPkg
 `endif

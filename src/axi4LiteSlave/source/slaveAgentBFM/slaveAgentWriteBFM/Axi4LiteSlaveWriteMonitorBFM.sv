@@ -66,7 +66,8 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
 
   
   task writeResponseChannelSampleTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,
-                                output axi4LiteWriteTransferPacketStruct slaveWritePacketStruct);
+                                      output axi4LiteWriteTransferPacketStruct slaveWritePacketStruct
+                                    );
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave writeResponseChannelTask"),UVM_HIGH)
     do begin
       @(posedge aclk);
@@ -74,7 +75,7 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
 
     do begin
       @(posedge aclk);
-      slaveWritePacketStruct.writeDelayForAwready++; 
+      slaveWritePacketStruct.writeDelayForBready++; 
     end while(bready===0);
 
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave writeResponseChannel slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)

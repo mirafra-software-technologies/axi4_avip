@@ -83,12 +83,13 @@ task writeResponseChannelTask(input axi4LiteWriteTransferConfigStruct slaveWrite
   `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_STARTED"),UVM_HIGH)
    @(posedge aclk);
    bvalid <= 1'b1;
+
    do begin
     @(posedge aclk);
-   end while(bready === 0);
+   end while(bready !== 1);
    `uvm_info(name ,$sformatf("After while loop bready asserted "),UVM_HIGH)
    `uvm_info(name,$sformatf("WRITE_RESPONSE_CHANNEL_TASK_ENDED"),UVM_HIGH)
-endtask
+endtask : writeResponseChannelTask
 
 
 endinterface : Axi4LiteSlaveWriteDriverBFM
