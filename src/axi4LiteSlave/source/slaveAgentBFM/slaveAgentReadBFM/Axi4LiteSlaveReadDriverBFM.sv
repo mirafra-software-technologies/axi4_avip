@@ -27,13 +27,13 @@ interface Axi4LiteSlaveReadDriverBFM(input bit                     aclk,
     `uvm_info("axi4 slave driver bfm",$sformatf("AXI4 SLAVE DRIVER BFM"),UVM_LOW);
   end
 
-   task waitForSystemReset();
+   task waitForAresetn();
     @(negedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET ACTIVATED"),UVM_HIGH)
     rvalid  <= 0;
     @(posedge aresetn);
     `uvm_info(name,$sformatf("SYSTEM RESET DE-ACTIVATED"),UVM_HIGH)
-  endtask : waitForSystemReset 
+  endtask : waitForAresetn 
  
   initial begin
     `uvm_info(name,$sformatf(name),UVM_LOW)

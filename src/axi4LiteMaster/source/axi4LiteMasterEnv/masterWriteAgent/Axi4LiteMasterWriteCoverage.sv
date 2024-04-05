@@ -6,6 +6,12 @@ class Axi4LiteMasterWriteCoverage extends uvm_subscriber#(Axi4LiteMasterWriteTra
  
   covergroup axi4LiteMasterWriteCovergroup with function sample (Axi4LiteMasterWriteTransaction packet);
     option.per_instance = 1;
+
+    MASTER_WRITE_BREADY_DELAY : coverpoint packet.writeDelayForBready {
+                                option.comment = "delay for the bready signal in the master write";
+                                bins BREADY_DELAY[]  = {[0:15]};
+                               }
+
   endgroup: axi4LiteMasterWriteCovergroup
 
   extern function new(string name = "Axi4LiteMasterWriteCoverage", uvm_component parent = null);

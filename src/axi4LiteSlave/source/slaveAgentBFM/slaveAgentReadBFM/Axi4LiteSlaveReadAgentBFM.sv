@@ -29,12 +29,12 @@ module Axi4LiteSlaveReadAgentBFM #(parameter int ADDR_WIDTH = 32,
                                                          );
 
  Axi4LiteSlaveReadMonitorBFM axi4LiteSlaveReadMonitorBFM (.aclk(axi4LiteSlaveReadInterface.aclk),
-                                                           .aresetn(axi4LiteSlaveReadInterface.aresetn),
-                                                           .arvalid(axi4LiteSlaveReadInterface.arvalid),
-                                                           .arready(axi4LiteSlaveReadInterface.arready),
-                                                           .rvalid(axi4LiteSlaveReadInterface.rvalid),
-                                                           .rready(axi4LiteSlaveReadInterface.rready)
-                                                          );
+                                                          .aresetn(axi4LiteSlaveReadInterface.aresetn),
+                                                          .arvalid(axi4LiteSlaveReadInterface.arvalid),
+                                                          .arready(axi4LiteSlaveReadInterface.arready),
+                                                          .rvalid(axi4LiteSlaveReadInterface.rvalid),
+                                                          .rready(axi4LiteSlaveReadInterface.rready)
+                                                         );
 
   assign axi4LiteSlaveReadInterface.arvalid = arvalid;
   assign axi4LiteSlaveReadInterface.rready  = rready;
@@ -50,8 +50,10 @@ module Axi4LiteSlaveReadAgentBFM #(parameter int ADDR_WIDTH = 32,
 
   bind axi4LiteSlaveReadMonitorBFM Axi4LiteSlaveReadAssertions M_A (.aclk(aclk),
                                                          .aresetn(aresetn),
-                                                         .valid(valid), 
-                                                         .ready(ready)
+                                                         .arvalid(arvalid), 
+                                                         .arready(arready),
+                                                         .rvalid(rvalid), 
+                                                         .rready(rready)
                                                         );
 
 

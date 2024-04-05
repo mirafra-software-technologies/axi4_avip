@@ -30,7 +30,7 @@ function void Axi4LiteSlaveReadValidNotYetGeneratedFatalMonitorProxy::end_of_ela
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteSlaveReadValidNotYetGeneratedFatalMonitorProxy::run_phase(uvm_phase phase);
-  axi4LiteSlaveReadMonitorBFM.wait_for_aresetn();
+  axi4LiteSlaveReadMonitorBFM.waitForAresetn();
   sampleTask(); 
 endtask : run_phase
 
@@ -42,7 +42,7 @@ task Axi4LiteSlaveReadValidNotYetGeneratedFatalMonitorProxy::sampleTask();
 
    Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
    fork
-     axi4LiteSlaveReadMonitorBFM.readChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
+     axi4LiteSlaveReadMonitorBFM.readAddressChannelSampleTask(slaveReadConfigStruct, slaveReadPacketStruct);
      axi4LiteSlaveReadMonitorBFM.validDelayTask(slaveReadConfigStruct);
    join_any
   end

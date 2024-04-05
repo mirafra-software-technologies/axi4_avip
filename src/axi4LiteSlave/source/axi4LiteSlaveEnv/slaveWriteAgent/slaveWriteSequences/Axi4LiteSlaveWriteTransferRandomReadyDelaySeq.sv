@@ -20,7 +20,8 @@ task Axi4LiteSlaveWriteTransferRandomReadyDelaySeq::body();
  
   start_item(req);
   if(!req.randomize() with {
-                  writeDelayForReady inside {[0:p_sequencer.axi4LiteSlaveWriteAgentConfig.maxDelayForReady]};
+                  writeDelayForAwready inside {[0:p_sequencer.axi4LiteSlaveWriteAgentConfig.maxDelayForReady]};
+                  writeDelayForWready inside {[0:p_sequencer.axi4LiteSlaveWriteAgentConfig.maxDelayForReady]};
                 }) begin
     `uvm_fatal("Axi4LiteSlaveWriteTransferRandomReadyDelaySeq","Rand failed");
   end

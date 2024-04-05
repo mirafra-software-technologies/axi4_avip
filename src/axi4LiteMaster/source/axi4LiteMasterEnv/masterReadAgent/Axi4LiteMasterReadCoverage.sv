@@ -6,6 +6,12 @@ class Axi4LiteMasterReadCoverage extends uvm_subscriber #(Axi4LiteMasterReadTran
 
   covergroup axi4LiteMasterReadCovergroup with function sample (Axi4LiteMasterReadTransaction packet);
     option.per_instance = 1;
+
+    MASTER_READ_RREADY_DELAY : coverpoint packet.readDelayForRready {
+                               option.comment = "delay for the rready signal in the master read";
+                               bins RREADY_DELAY[]  = {[0:15]};
+                              }
+
   endgroup : axi4LiteMasterReadCovergroup
 
 

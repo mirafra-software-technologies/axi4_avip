@@ -50,10 +50,12 @@ module Axi4LiteMasterReadAgentBFM #(parameter int ADDR_WIDTH = 32,
   end
 
   bind axi4LiteMasterReadMonitorBFM Axi4LiteMasterReadAssertions M_A (.aclk(aclk),
-                                                           .aresetn(aresetn),
-                                                           .valid(valid), 
-                                                           .ready(ready)
-                                                          );
+                                                                      .aresetn(aresetn),
+                                                                      .arvalid(arvalid), 
+                                                                      .arready(arready),
+                                                                      .rvalid(rvalid),
+                                                                      .rready(rready)
+                                                                     );
 
 
   initial begin

@@ -39,12 +39,10 @@ module Axi4LiteMasterAgentBFM #(parameter int ADDR_WIDTH = 32,
 
   Axi4LiteMasterReadAgentBFM axi4LiteMasterReadAgentBFM (.aclk(axi4LiteMasterInterface.aclk), 
                                                          .aresetn(axi4LiteMasterInterface.aresetn),
-                                                         .awvalid(axi4LiteMasterInterface.awvalid),
-                                                         .awready(axi4LiteMasterInterface.awready),
-                                                         .wvalid(axi4LiteMasterInterface.wvalid),
-                                                         .wready(axi4LiteMasterInterface.wready),
-                                                         .bvalid(axi4LiteMasterInterface.bvalid),
-                                                         .bready(axi4LiteMasterInterface.bready)
+                                                         .arvalid(axi4LiteMasterInterface.arvalid),
+                                                         .arready(axi4LiteMasterInterface.arready),
+                                                         .rvalid(axi4LiteMasterInterface.rvalid),
+                                                         .rready(axi4LiteMasterInterface.rready)
                                                         );
 
   assign awvalid = axi4LiteMasterInterface.awvalid;

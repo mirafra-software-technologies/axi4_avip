@@ -30,7 +30,7 @@ function void Axi4LiteMasterReadValidGeneratedReadyNotYetGeneratedFatalMonitorPr
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteMasterReadValidGeneratedReadyNotYetGeneratedFatalMonitorProxy::run_phase(uvm_phase phase);
-  axi4LiteMasterReadMonitorBFM.wait_for_aresetn();
+  axi4LiteMasterReadMonitorBFM.waitForAresetn();
   sampleTask(); 
 endtask : run_phase
 
@@ -42,7 +42,7 @@ task Axi4LiteMasterReadValidGeneratedReadyNotYetGeneratedFatalMonitorProxy::samp
 
    Axi4LiteMasterReadConfigConverter::fromClass(axi4LiteMasterReadAgentConfig, masterReadConfigStruct);
    fork
-     axi4LiteMasterReadMonitorBFM.readChannelTask(masterReadConfigStruct, masterReadPacketStruct);
+     axi4LiteMasterReadMonitorBFM.readAddressChannelSampleTask(masterReadConfigStruct, masterReadPacketStruct);
      axi4LiteMasterReadMonitorBFM.readyTimeTask(masterReadConfigStruct);
    join_any
   end

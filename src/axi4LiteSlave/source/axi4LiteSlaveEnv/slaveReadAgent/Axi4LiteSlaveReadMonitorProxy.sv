@@ -61,7 +61,7 @@ task Axi4LiteSlaveReadMonitorProxy::ReadAddressSampleTask();
    axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
 
    Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
-   axi4LiteSlaveReadMonitorBFM.readAddressChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
+   axi4LiteSlaveReadMonitorBFM.readAddressChannelSampleTask(slaveReadConfigStruct, slaveReadPacketStruct);
    Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,reqRead);
 
     // Clone and publish the cloned item to the subscribers
@@ -79,7 +79,7 @@ task Axi4LiteSlaveReadMonitorProxy::ReadDataSampleTask();
    axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
 
    Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
-   axi4LiteSlaveReadMonitorBFM.readAddressChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
+   axi4LiteSlaveReadMonitorBFM.readAddressChannelSampleTask(slaveReadConfigStruct, slaveReadPacketStruct);
    Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,reqRead);
 
     // Clone and publish the cloned item to the subscribers

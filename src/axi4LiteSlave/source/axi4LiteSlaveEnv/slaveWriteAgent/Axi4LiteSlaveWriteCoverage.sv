@@ -7,10 +7,16 @@ class Axi4LiteSlaveWriteCoverage extends uvm_subscriber#(Axi4LiteSlaveWriteTrans
     covergroup axi4LiteSlaveWriteCovergroup with function sample (Axi4LiteSlaveWriteTransaction packet);
     option.per_instance = 1;
 
-    SLAVE_WRITE_READY_DELAY : coverpoint packet.writeDelayForReady {
-                              option.comment = "delay for the ready signal in the slave write";
-                              bins READY_DELAY[]  = {[0:15]};
-                             }
+    SLAVE_WRITE_AWREADY_DELAY : coverpoint packet.writeDelayForAwready {
+                                option.comment = "delay for the awready signal in the slave write";
+                                bins AWREADY_DELAY[]  = {[0:15]};
+                               }
+
+    SLAVE_WRITE_WREADY_DELAY : coverpoint packet.writeDelayForWready {
+                               option.comment = "delay for the wready signal in the slave write";
+                               bins WREADY_DELAY[]  = {[0:15]};
+                              }
+
   endgroup: axi4LiteSlaveWriteCovergroup
  
   extern function new(string name = "Axi4LiteSlaveWriteCoverage", uvm_component parent = null);

@@ -40,15 +40,31 @@ module HdlTop;
     for (i=0; i<NO_OF_MASTERS; i++) begin : Axi4LiteMasterAgentBFM
       Axi4LiteMasterAgentBFM #() axi4LiteMasterAgentBFM(.aclk(axi4LiteInterface.aclk),
                                                         .aresetn(axi4LiteInterface.aresetn),
-                                                        .valid(axi4LiteInterface.valid),
-                                                        .ready(axi4LiteInterface.ready)
+                                                        .awvalid(axi4LiteInterface.awvalid),
+                                                        .awready(axi4LiteInterface.awready),
+                                                        .wvalid(axi4LiteInterface.wvalid),
+                                                        .wready(axi4LiteInterface.wready),
+                                                        .bvalid(axi4LiteInterface.bvalid),
+                                                        .bready(axi4LiteInterface.bready),
+                                                        .arvalid(axi4LiteInterface.arvalid),
+                                                        .arready(axi4LiteInterface.arready),
+                                                        .rvalid(axi4LiteInterface.rvalid),
+                                                        .rready(axi4LiteInterface.rready)
                                                        );
     end
     for (i=0; i<NO_OF_SLAVES; i++) begin : Axi4LiteSlaveAgentBFM
       Axi4LiteSlaveAgentBFM #() axi4LiteSlaveAgentBFM(.aclk(axi4LiteInterface.aclk),
                                                       .aresetn(axi4LiteInterface.aresetn),
-                                                      .valid(axi4LiteInterface.valid),
-                                                      .ready(axi4LiteInterface.ready)
+                                                      .awvalid(axi4LiteInterface.awvalid),
+                                                      .awready(axi4LiteInterface.awready),
+                                                      .wvalid(axi4LiteInterface.wvalid),
+                                                      .wready(axi4LiteInterface.wready),
+                                                      .bvalid(axi4LiteInterface.bvalid),
+                                                      .bready(axi4LiteInterface.bready),
+                                                      .arvalid(axi4LiteInterface.arvalid),
+                                                      .arready(axi4LiteInterface.arready),
+                                                      .rvalid(axi4LiteInterface.rvalid),
+                                                      .rready(axi4LiteInterface.rready)
                                                      );
     end
   endgenerate

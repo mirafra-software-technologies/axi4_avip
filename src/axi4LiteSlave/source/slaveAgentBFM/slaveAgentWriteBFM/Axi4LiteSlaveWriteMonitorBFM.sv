@@ -34,7 +34,7 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
     `uvm_info("FROM SLAVE MON BFM",$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn
 
-  task writeAddressChannelTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,
+  task writeAddressChannelSampleTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,
                                output axi4LiteWriteTransferPacketStruct slaveWritePacketStruct);
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave writeAddressChannelTask"),UVM_HIGH)
     do begin
@@ -47,9 +47,9 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
     end while(awready===0);
 
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave writeAddressChannel slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
-  endtask : writeAddressChannelTask 
+  endtask : writeAddressChannelSampleTask 
 
-     task writeDataChannelTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,
+     task writeDataChannelSampleTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,
                               output axi4LiteWriteTransferPacketStruct slaveWritePacketStruct);
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave writeDataChannelTask"),UVM_HIGH)
     do begin
@@ -62,10 +62,10 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
     end while(wready===0);
 
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave writeDataChannel slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
-  endtask : writeDataChannelTask 
+  endtask : writeDataChannelSampleTask 
 
   
-  task writeResponseChannelTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,
+  task writeResponseChannelSampleTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct,
                                 output axi4LiteWriteTransferPacketStruct slaveWritePacketStruct);
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave writeResponseChannelTask"),UVM_HIGH)
     do begin
@@ -78,7 +78,7 @@ interface Axi4LiteSlaveWriteMonitorBFM(input bit aclk,
     end while(bready===0);
 
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("after while loop from axi4Lite Slave writeResponseChannel slaveWritePacketStruct=%p ",slaveWritePacketStruct),UVM_HIGH)
-  endtask : writeResponseChannelTask 
+  endtask : writeResponseChannelSampleTask 
 
   task validDelayTask(input axi4LiteWriteTransferConfigStruct slaveWriteConfigStruct);
     `uvm_info("FROM SLAVE WRITE MONITOR BFM",$sformatf("from axi4Lite Slave write validDelayTask"),UVM_HIGH)

@@ -29,7 +29,7 @@ interface Axi4LiteSlaveReadMonitorBFM(input bit aclk,
     `uvm_info("FROM Slave MON BFM",$sformatf("SYSTEM RESET DEACTIVATED"),UVM_HIGH)
   endtask : waitForAresetn
 
-  task readAddressChannelTask(input axi4LiteReadTransferConfigStruct slaveReadConfigStruct,output axi4LiteReadTransferPacketStruct slaveReadPacketStruct);
+  task readAddressChannelSampleTask(input axi4LiteReadTransferConfigStruct slaveReadConfigStruct,output axi4LiteReadTransferPacketStruct slaveReadPacketStruct);
     @(posedge aclk);
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("from axi4Lite Slave readAddressChannelTask"),UVM_HIGH)
 
@@ -43,9 +43,9 @@ interface Axi4LiteSlaveReadMonitorBFM(input bit aclk,
     end while(arready===0);
 
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("after while loop from axi4Lite Slave readAddressChannel slaveReadPacketStruct=%p ",slaveReadPacketStruct),UVM_HIGH)
-  endtask : readAddressChannelTask
+  endtask : readAddressChannelSampleTask
 
-  task readDataChannelTask(input axi4LiteReadTransferConfigStruct slaveReadConfigStruct,output axi4LiteReadTransferPacketStruct slaveReadPacketStruct);
+  task readDataChannelSampleTask(input axi4LiteReadTransferConfigStruct slaveReadConfigStruct,output axi4LiteReadTransferPacketStruct slaveReadPacketStruct);
     @(posedge aclk);
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("from axi4Lite Slave readDataChannelTask"),UVM_HIGH)
 
@@ -59,7 +59,7 @@ interface Axi4LiteSlaveReadMonitorBFM(input bit aclk,
     end while(rready === 0);
 
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("after while loop from axi4Lite Slave readDataChannel slaveReadPacketStruct=%p ",slaveReadPacketStruct),UVM_HIGH)
-  endtask : readDataChannelTask
+  endtask : readDataChannelSampleTask
 
   task validDelayTask(input axi4LiteReadTransferConfigStruct slaveReadConfigStruct);
     `uvm_info("FROM SLAVE READ MONITOR BFM",$sformatf("from axi4Lite Slave read validDelayTask"),UVM_HIGH)

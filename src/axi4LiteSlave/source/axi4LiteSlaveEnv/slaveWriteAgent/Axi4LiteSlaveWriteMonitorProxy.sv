@@ -65,7 +65,7 @@ task Axi4LiteSlaveWriteMonitorProxy::writeAddressSampleTask();
    axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
 
    Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
-   axi4LiteSlaveWriteMonitorBFM.writeAddressChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+   axi4LiteSlaveWriteMonitorBFM.writeAddressChannelSampleTask(slaveWriteConfigStruct, slaveWritePacketStruct);
    Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);
     // Clone and publish the cloned item to the subscribers
    $cast(slaveWriteAddressTx,reqWrite.clone());
@@ -82,7 +82,7 @@ task Axi4LiteSlaveWriteMonitorProxy::writeDataSampleTask();
    axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
 
    Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
-   axi4LiteSlaveWriteMonitorBFM.writeDataChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+   axi4LiteSlaveWriteMonitorBFM.writeDataChannelSampleTask(slaveWriteConfigStruct, slaveWritePacketStruct);
    Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);
     // Clone and publish the cloned item to the subscribers
    $cast(slaveWriteDataTx,reqWrite.clone());
@@ -99,7 +99,7 @@ task Axi4LiteSlaveWriteMonitorProxy::writeResponseSampleTask();
    axi4LiteWriteTransferPacketStruct slaveWritePacketStruct;
 
    Axi4LiteSlaveWriteConfigConverter::fromClass(axi4LiteSlaveWriteAgentConfig, slaveWriteConfigStruct);
-   axi4LiteSlaveWriteMonitorBFM.writeResponseChannelTask(slaveWriteConfigStruct, slaveWritePacketStruct);
+   axi4LiteSlaveWriteMonitorBFM.writeResponseChannelSampleTask(slaveWriteConfigStruct, slaveWritePacketStruct);
    Axi4LiteSlaveWriteSeqItemConverter::toWriteClass(slaveWritePacketStruct,reqWrite);
     // Clone and publish the cloned item to the subscribers
    $cast(slaveWriteResponseTx,reqWrite.clone());

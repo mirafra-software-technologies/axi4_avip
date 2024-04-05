@@ -55,10 +55,14 @@ module Axi4LiteSlaveWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
   end
 
   bind axi4LiteSlaveWriteMonitorBFM Axi4LiteSlaveWriteAssertions M_A (.aclk(aclk),
-                                                          .aresetn(aresetn),
-                                                          .valid(valid),
-                                                          .ready(ready)
-                                                         );
+                                                                      .aresetn(aresetn),
+                                                                      .awvalid(awvalid),
+                                                                      .awready(awready),
+                                                                      .wvalid(wvalid),
+                                                                      .wready(wready),
+                                                                      .bvalid(bvalid),
+                                                                      .bready(bready)
+                                                                     );
   //-------------------------------------------------------
   // Setting the virtual handle of BMFs into config_db
   //-------------------------------------------------------

@@ -30,7 +30,7 @@ function void Axi4LiteMasterWriteValidGeneratedReadyNotYetGeneratedFatalMonitorP
 endfunction : end_of_elaboration_phase
 
 task Axi4LiteMasterWriteValidGeneratedReadyNotYetGeneratedFatalMonitorProxy::run_phase(uvm_phase phase);
-  axi4LiteMasterWriteMonitorBFM.wait_for_aresetn();
+  axi4LiteMasterWriteMonitorBFM.waitForAresetn();
   sampleTask(); 
 endtask : run_phase
 
@@ -42,7 +42,7 @@ task Axi4LiteMasterWriteValidGeneratedReadyNotYetGeneratedFatalMonitorProxy::sam
 
    Axi4LiteMasterWriteConfigConverter::fromClass(axi4LiteMasterWriteAgentConfig, masterWriteConfigStruct);
    fork
-     axi4LiteMasterWriteMonitorBFM.writeChannelTask(masterWriteConfigStruct, masterWritePacketStruct);
+     axi4LiteMasterWriteMonitorBFM.writeAddressChannelSampleTask(masterWriteConfigStruct, masterWritePacketStruct);
      axi4LiteMasterWriteMonitorBFM.readyTimeTask(masterWriteConfigStruct);
    join_any
   end
