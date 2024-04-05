@@ -57,34 +57,38 @@ endtask : run_phase
 
 task Axi4LiteSlaveReadDriverProxy::readTransferTask();
   forever begin
-    Axi4LiteSlaveReadTransaction slaveReadAddressTx;
+    Axi4LiteSlaveReadTransaction slaveReadTx;
     axi4LiteReadTransferConfigStruct slaveReadConfigStruct;
     axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
 
     axi4LiteSlaveReadSeqItemPort.get_next_item(reqRead);
-    Axi4LiteSlaveReadSeqItemConverter::fromReadClass(reqRead, slaveReadPacketStruct);
+    `uvm_info(get_type_name(),$sformatf("SLAVE_READ_TASK::Before Sending_Req_Read_Packet = \n%s",reqRead.sprint()),UVM_HIGH);
+
+      Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
    
     fork 
       begin : SLAVE_READ_ADDRESS_TASK 
       Axi4LiteSlaveReadTransaction slaveReadAddressTx;
-      axi4LiteReadTransferConfigStruct slaveReadConfigStruct;
       axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
-      `uvm_info("readTransferTask",$sformatf("SLAVE_READ_ADDRESS_TASK::Before Sending_Req_Read_Packet = \n%s",reqRead.sprint()),UVM_HIGH);
-    
-      Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
+      `uvm_info(get_type_name(),$sformatf("SLAVE_READ_ADDRESS_TASK::Before read address struct packet = %p",
+                                          slaveReadPacketStruct),UVM_MEDIUM);
+      Axi4LiteSlaveReadSeqItemConverter::fromReadClass(reqRead, slaveReadPacketStruct);
       axi4LiteSlaveReadDriverBFM.readAddressChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
       Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,slaveReadAddressTx);
+      `uvm_info(get_type_name(),$sformatf("SLAVE_READ_ADDRESS_TASK::Received read address packet From driverBFM = %p",
+                                          slaveReadPacketStruct),UVM_MEDIUM);  
       end
 
       begin : SLAVE_READ_DATA_TASK
       Axi4LiteSlaveReadTransaction slaveReadDataTx;
-      axi4LiteReadTransferConfigStruct slaveReadConfigStruct;
       axi4LiteReadTransferPacketStruct slaveReadPacketStruct;
-      `uvm_info("readTransferTask",$sformatf("SLAVE_READ_DATA_TASK::Before Sending_Req_Read_Packet = \n%s",reqRead.sprint()),UVM_HIGH);
-  
-      Axi4LiteSlaveReadConfigConverter::fromClass(axi4LiteSlaveReadAgentConfig, slaveReadConfigStruct);
+      `uvm_info(get_type_name(),$sformatf("SLAVE_READ_DATA_TASK::Before read Data struct packet = %p",
+                                          slaveReadPacketStruct),UVM_MEDIUM);
+      Axi4LiteSlaveReadSeqItemConverter::fromReadClass(reqRead, slaveReadPacketStruct);
       axi4LiteSlaveReadDriverBFM.readDataChannelTask(slaveReadConfigStruct, slaveReadPacketStruct);
       Axi4LiteSlaveReadSeqItemConverter::toReadClass(slaveReadPacketStruct,slaveReadDataTx);
+      `uvm_info(get_type_name(),$sformatf("SLAVE_READ_DATA_TASK::Received read data packet From driverBFM = %p",
+                                          slaveReadPacketStruct),UVM_MEDIUM);
       end
     join 
    axi4LiteSlaveReadSeqItemPort.item_done();
