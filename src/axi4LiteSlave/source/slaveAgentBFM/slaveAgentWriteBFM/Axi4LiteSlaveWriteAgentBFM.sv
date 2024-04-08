@@ -45,6 +45,7 @@ module Axi4LiteSlaveWriteAgentBFM #(parameter int ADDR_WIDTH = 32,
 
   assign axi4LiteSlaveWriteInterface.awvalid = awvalid;
   assign axi4LiteSlaveWriteInterface.wvalid = wvalid;
+  assign axi4LiteSlaveWriteInterface.bready = bready;
   assign awready = axi4LiteSlaveWriteInterface.awready;  
   assign wready = axi4LiteSlaveWriteInterface.wready;  
   assign bvalid = axi4LiteSlaveWriteInterface.bvalid;  
